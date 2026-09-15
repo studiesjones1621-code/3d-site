@@ -4,30 +4,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Diet Soda | Pure Zero Refreshment</title>
-    <meta name="description" content="Experience the crisp, clean taste of Diet Soda. Zero sugar, zero compromise.">
+    <title>Iconic Juice | Halal Body Fuel</title>
+    <meta name="description"
+        content="Baltimore's #1 cold-pressed juice brand in the DMV. Fresh ingredients, cold-pressed, nutrient-dense halal body fuel.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&family=Inter:wght@400;500&family=Manrope:wght@400;700&family=Galada&display=swap"
         rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
     <style>
+        @property --bg-inner {
+            syntax: '<color>';
+            inherits: true;
+            initial-value: #8a5f0b;
+        }
+
+        @property --bg-mid {
+            syntax: '<color>';
+            inherits: true;
+            initial-value: #4e3104;
+        }
+
+        @property --bg-outer {
+            syntax: '<color>';
+            inherits: true;
+            initial-value: #140c01;
+        }
+
         :root {
             --bg-color: #0a0a0a;
             --text-color: #ffffff;
-            --accent-color: #ffffff;
+            --accent-color: #f2c14e;
+            --accent-ink: #1a1206;
             --muted-color: rgba(255, 255, 255, 0.7);
             --glass-bg: rgba(255, 255, 255, 0.05);
-            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.12);
             --font-main: 'Inter', sans-serif;
             --font-heading: 'Galada', cursive;
 
             /* Dynamic Background Variables */
-            --bg-inner: #0b8a78;
-            --bg-mid: #044e3b;
-            --bg-outer: #011411;
+            --bg-inner: #8a5f0b;
+            --bg-mid: #4e3104;
+            --bg-outer: #140c01;
         }
 
         * {
@@ -41,17 +60,39 @@
             color: var(--text-color);
             font-family: var(--font-main);
             overflow: hidden;
-            /* Remove scroll */
             height: 100vh;
-            transition: background 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+            transition:
+                --bg-inner 1.5s cubic-bezier(0.4, 0, 0.2, 1),
+                --bg-mid 1.5s cubic-bezier(0.4, 0, 0.2, 1),
+                --bg-outer 1.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        body.blue-theme {
-            --bg-inner: #0b4f8a;
-            --bg-mid: #04294e;
+        /* ---------- Flavor themes ---------- */
+        body[data-theme="halfhalf"] {
+            --bg-inner: #8a5f0b;
+            --bg-mid: #4e3104;
+            --bg-outer: #140c01;
+        }
+
+        body[data-theme="beet"] {
+            --bg-inner: #8a0b3f;
+            --bg-mid: #4e0422;
+            --bg-outer: #14010a;
+        }
+
+        body[data-theme="blue"] {
+            --bg-inner: #0b5f8a;
+            --bg-mid: #04304e;
             --bg-outer: #010c14;
         }
 
+        body[data-theme="green"] {
+            --bg-inner: #0b8a4f;
+            --bg-mid: #044e2f;
+            --bg-outer: #011411;
+        }
+
+        /* ---------- Bubbles ---------- */
         #bubbles-container {
             position: fixed;
             top: 0;
@@ -66,6 +107,12 @@
         .bubble-img {
             position: absolute;
             pointer-events: none;
+            border-radius: 50%;
+            background:
+                radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.25) 18%, rgba(255, 255, 255, 0.04) 42%, rgba(255, 255, 255, 0.02) 70%),
+                radial-gradient(circle at 70% 78%, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 45%);
+            box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.45), 0 0 10px rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.35);
         }
 
         @keyframes floatUpImg {
@@ -88,24 +135,47 @@
             }
         }
 
+        /* ---------- Header ---------- */
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 2rem 4%;
+            padding: 1.6rem 4%;
             position: fixed;
             top: 0;
             width: 100%;
-            z-index: 100;
+            z-index: 200;
         }
 
         .logo {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.6rem;
             font-weight: 700;
             font-size: 1.2rem;
             font-family: var(--font-heading);
+            color: var(--accent-color);
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1;
+        }
+
+        .logo-text b {
+            font-family: var(--font-heading);
+            font-weight: 400;
+            font-size: 1.35rem;
+            letter-spacing: 0.02em;
+        }
+
+        .logo-text small {
+            font-family: 'Manrope', sans-serif;
+            font-size: 0.5rem;
+            letter-spacing: 0.32em;
+            color: var(--muted-color);
+            margin-top: 2px;
         }
 
         .nav {
@@ -135,12 +205,13 @@
             padding: 0.5rem 1.2rem;
             border-radius: 100px;
             transition: all 0.3s ease;
+            white-space: nowrap;
         }
 
         .nav-item:hover,
         .nav-item.active {
-            background: #fbcfe8;
-            color: #011d17;
+            background: var(--accent-color);
+            color: var(--accent-ink);
         }
 
         .contact-btn {
@@ -159,9 +230,9 @@
         .contact-btn:hover {
             background: rgba(0, 0, 0, 0.7);
             transform: translateY(-2px);
-            box-shadow: none;
         }
 
+        /* ---------- Hero ---------- */
         .hero {
             height: 100vh;
             display: flex;
@@ -175,7 +246,6 @@
             display: flex;
             justify-content: space-between;
             align-items: stretch;
-            /* Stretch columns to full height */
             width: 100%;
             max-width: 100%;
             padding: 0;
@@ -183,12 +253,11 @@
             position: relative;
         }
 
-        /* Typography */
         .main-title,
         .side-title {
             font-family: var(--font-heading);
-            font-size: clamp(5rem, 10vw, 12rem);
-            line-height: 0.8;
+            font-size: clamp(3rem, 6.2vw, 7.2rem);
+            line-height: 0.85;
             font-weight: 400;
             text-transform: none;
             white-space: nowrap;
@@ -198,8 +267,17 @@
 
         .outline {
             color: var(--text-color);
+            opacity: 0.55;
         }
 
+        .gold {
+            background: linear-gradient(180deg, #fff0c4 0%, var(--accent-color) 45%, #a9762a 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* ---------- Leaves (far background) ---------- */
         .leaves-container {
             position: absolute;
             top: 0;
@@ -208,7 +286,6 @@
             height: 100%;
             pointer-events: none;
             z-index: -1;
-            /* Even further behind */
             transition: transform 0.1s ease-out;
         }
 
@@ -218,58 +295,91 @@
             height: 60px;
             pointer-events: none;
             z-index: -1;
-            filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.2));
+            filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.25));
+            opacity: 0.55;
         }
 
-        .l1 {
-            top: 10%;
-            left: 15%;
+        .leaf svg {
+            width: 100%;
+            height: 100%;
+            display: block;
         }
 
-        .l2 {
-            top: 40%;
-            left: 80%;
-            width: 140px;
-            height: 140px;
-            opacity: 0.4;
-        }
+        .l1 { top: 10%; left: 15%; }
+        .l2 { top: 40%; left: 80%; width: 140px; height: 140px; opacity: 0.4; }
+        .l3 { top: 70%; left: 75%; width: 80px; height: 80px; }
+        .l4 { top: 85%; left: 20%; width: 120px; height: 120px; opacity: 0.3; }
 
-        .l3 {
-            top: 70%;
-            left: 75%;
-            width: 80px;
-            height: 80px;
-        }
-
-        .l4 {
-            top: 85%;
-            left: 20%;
-            width: 120px;
-            height: 120px;
-            opacity: 0.3;
-        }
-
+        /* ---------- Left column ---------- */
         .hero-left {
             display: flex;
             flex-direction: column;
             height: 100%;
-            padding: 6rem 0;
-            gap: 2rem;
+            padding: 4.5rem 0 3.5rem;
+            gap: 1.3rem;
             z-index: 100;
+            pointer-events: none;
+            max-width: 46%;
         }
 
-        @keyframes fadeInEntry {
-            to {
-                opacity: 1;
-                transform: none;
-            }
+        .eyebrow {
+            font-family: 'Manrope', sans-serif;
+            font-size: 0.7rem;
+            letter-spacing: 0.34em;
+            color: var(--accent-color);
+            text-transform: uppercase;
+        }
+
+        .flavor-name {
+            font-family: 'Manrope', sans-serif;
+            font-size: 1.15rem;
+            font-weight: 700;
+            letter-spacing: 0.02em;
         }
 
         .description {
             color: var(--muted-color);
-            font-size: 1.1rem;
+            font-size: 1rem;
             line-height: 1.6;
             max-width: 400px;
+        }
+
+        .benefits {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            max-width: 420px;
+        }
+
+        .benefit-chip {
+            font-family: 'Manrope', sans-serif;
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            padding: 0.45rem 0.85rem;
+            border-radius: 100px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            gap: 0.45rem;
+        }
+
+        .benefit-chip i {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent-color);
+            display: block;
+        }
+
+        .cta-group {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            pointer-events: auto;
         }
 
         .primary-btn {
@@ -291,12 +401,11 @@
         .primary-btn:hover {
             background: rgba(0, 0, 0, 0.7);
             transform: translateY(-3px);
-            box-shadow: none;
         }
 
         .plus-icon {
-            background: #fbcfe8;
-            color: #011d17;
+            background: var(--accent-color);
+            color: var(--accent-ink);
             width: 38px;
             height: 38px;
             display: flex;
@@ -307,8 +416,21 @@
             font-weight: 900;
             line-height: 1;
             padding-bottom: 2px;
-            /* Compensate for baseline shift */
             border: none;
+        }
+
+        .price-tag {
+            font-family: 'Manrope', sans-serif;
+            font-weight: 700;
+            font-size: 1.05rem;
+        }
+
+        .price-tag small {
+            display: block;
+            font-weight: 400;
+            font-size: 0.65rem;
+            letter-spacing: 0.16em;
+            color: var(--muted-color);
         }
 
         .award-badge {
@@ -316,23 +438,25 @@
             align-items: center;
             gap: 1rem;
             margin-top: auto;
-            /* Push to bottom */
         }
 
         .award-icon {
-            width: 48px;
-            height: 48px;
+            width: 52px;
+            height: 52px;
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
-            border-radius: 12px;
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
+            color: var(--accent-color);
+            flex-shrink: 0;
         }
 
         .award-text {
             display: flex;
             flex-direction: column;
+            gap: 2px;
         }
 
         .award-title {
@@ -342,10 +466,65 @@
         }
 
         .award-subtitle {
-            font-size: 0.85rem;
-            font-weight: 600;
+            font-size: 0.9rem;
+            font-weight: 700;
         }
 
+        .stars {
+            letter-spacing: 0.22em;
+            font-size: 0.7rem;
+            color: var(--accent-color);
+        }
+
+        /* ---------- Fruits ---------- */
+        .fruits-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 110;
+            transition: transform 0.1s ease-out;
+        }
+
+        .fruits-container-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            transition: transform 0.1s ease-out;
+        }
+
+        .fruit {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            outline: none;
+            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.35));
+            will-change: transform;
+        }
+
+        .fruit svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .f1 { top: 24%; left: 27%; width: 190px; height: 190px; }
+        .f2 { top: 63%; left: 40%; width: 100px; height: 100px; }
+        .f3 { top: 57%; left: 34%; width: 200px; height: 200px; }
+        .f4 { top: 12%; left: 45%; width: 130px; height: 130px; }
+        .f5 { top: 72%; left: 16%; width: 120px; height: 120px; }
+        .f6 { top: 68%; left: 66%; width: 160px; height: 160px; }
+        .f7 { top: 15%; left: 38%; width: 80px; height: 80px; opacity: 0.7; }
+        .f8 { top: 46%; left: 57%; width: 70px; height: 70px; opacity: 0.6; }
+        .f9 { top: 84%; left: 46%; width: 75px; height: 75px; opacity: 0.7; }
+
+        /* ---------- Center bottle ---------- */
         .hero-center {
             display: flex;
             justify-content: center;
@@ -357,151 +536,62 @@
             height: 100%;
             z-index: 1;
             opacity: 0;
-            animation: fadeIn 1.5s ease-out 0.3s forwards, float 6s ease-in-out infinite;
+            animation: float 6s ease-in-out infinite;
+            transition: opacity 1.5s ease-out;
             pointer-events: none;
-            background: radial-gradient(circle at center, rgba(16, 185, 129, 0.1) 0%, transparent 70%);
+            background: radial-gradient(circle at center, rgba(242, 193, 78, 0.10) 0%, transparent 70%);
         }
 
-        @keyframes fadeIn {
-            to {
-                opacity: 1;
-            }
+        .hero-center.ready {
+            opacity: 1;
         }
 
         @keyframes float {
-
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-20px);
-            }
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
         }
 
         .main-product-3d {
-            width: 80vw;
-            height: 80vh;
-            outline: none;
-            --progress-bar-color: transparent;
-            --poster-color: transparent;
-            z-index: 1;
+            width: 46vw;
+            height: 84vh;
+            max-width: 620px;
             position: fixed;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%) rotate(25deg);
+            transform: translate(-50%, -50%);
+            perspective: 1400px;
             pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .main-product-3d[camera-controls] {
-            pointer-events: auto;
-        }
-
-        .berries-container {
-            position: absolute;
-            top: 0;
-            left: 0;
+        #bottle {
             width: 100%;
             height: 100%;
-            pointer-events: none;
-            z-index: 110;
-            /* Above text (100) and can (50) */
-            transition: transform 0.1s ease-out;
+            transform-style: preserve-3d;
+            will-change: transform;
         }
 
-        .berries-container-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
+        #bottle svg {
             width: 100%;
             height: 100%;
-            pointer-events: none;
-            z-index: 0;
-            /* Behind everything */
-            transition: transform 0.1s ease-out;
+            display: block;
+            filter: drop-shadow(0 40px 60px rgba(0, 0, 0, 0.55));
         }
 
-        .berry {
+        .can-shadow {
             position: absolute;
-            width: 120px;
-            height: 120px;
-            outline: none;
-            --progress-bar-color: transparent;
-            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.3));
-            transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+            bottom: 4%;
+            left: 50%;
+            width: 42%;
+            height: 26px;
+            transform: translateX(-50%);
+            background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.55) 0%, transparent 70%);
+            filter: blur(6px);
         }
 
-        .berry.no-animation {
-            animation: none !important;
-        }
-
-        .b1 {
-            top: 25%;
-            left: 30%;
-            width: 220px;
-            height: 220px;
-        }
-
-        .b2 {
-            top: 60%;
-            left: 42%;
-            width: 100px;
-            height: 100px;
-        }
-
-        .b3 {
-            top: 30%;
-            left: 62%;
-            width: 250px;
-            height: 250px;
-        }
-
-        .b4 {
-            top: 15%;
-            left: 48%;
-            width: 140px;
-            height: 140px;
-        }
-
-        .b5 {
-            top: 75%;
-            left: 20%;
-            width: 120px;
-            height: 120px;
-        }
-
-        .b6 {
-            top: 45%;
-            left: 75%;
-            width: 180px;
-            height: 180px;
-        }
-
-        .b7 {
-            top: 15%;
-            left: 40%;
-            width: 80px;
-            height: 80px;
-            opacity: 0.7;
-        }
-
-        .b8 {
-            top: 50%;
-            left: 55%;
-            width: 70px;
-            height: 70px;
-            opacity: 0.6;
-        }
-
-        .b9 {
-            top: 80%;
-            left: 35%;
-            width: 75px;
-            height: 75px;
-            opacity: 0.7;
-        }
-
+        /* ---------- Right column ---------- */
         .hero-right {
             display: flex;
             flex-direction: column;
@@ -509,46 +599,38 @@
             align-items: flex-end;
             text-align: right;
             height: 100%;
-            padding: 6rem 0;
+            padding: 4.5rem 0 3.5rem;
             z-index: 100;
-            width: 450px;
+            width: 470px;
             pointer-events: none;
-        }
-
-        @keyframes fadeInLeft {
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
         }
 
         .product-carousel {
             display: flex;
             flex-direction: column;
-            gap: 1.5rem;
+            gap: 1.2rem;
             align-items: flex-end;
             pointer-events: auto;
-            /* Enable interaction */
         }
 
         .carousel-cards {
             display: flex;
-            gap: 1rem;
+            gap: 0.7rem;
         }
 
         .card {
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
-            padding: 1rem;
-            padding-top: 5rem;
-            border-radius: 28px;
+            padding: 0.7rem 0.5rem;
+            padding-top: 4.4rem;
+            border-radius: 24px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 1.5rem;
+            gap: 1rem;
             cursor: pointer;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            width: 135px;
+            width: 106px;
             position: relative;
             backdrop-filter: blur(10px);
             text-align: center;
@@ -560,38 +642,42 @@
         }
 
         .card.active {
-            border-color: #fbcfe8;
-            border-width: 1px;
-            background: var(--glass-bg);
-            box-shadow: none;
+            border-color: var(--accent-color);
+            background: rgba(255, 255, 255, 0.09);
         }
 
-        .card img {
-            width: 140px;
-            height: auto;
-            margin-top: -8rem;
-            filter: drop-shadow(0 20px 35px rgba(0, 0, 0, 0.5));
-            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+        .card .thumb {
+            width: 104px;
+            margin-top: -6.4rem;
+            filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.55));
+            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
             display: block;
             will-change: transform;
             pointer-events: none;
-            /* Mouse passes through image to trigger card hover */
         }
 
-        .card:hover img {
-            transform: translateY(-30px) rotate(-12deg) scale(1.15) !important;
+        .card .thumb svg {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .card:hover .thumb {
+            transform: translateY(-26px) rotate(-10deg) scale(1.12);
         }
 
         .card-info {
             display: flex;
             flex-direction: column;
-            font-size: 0.7rem;
+            gap: 2px;
+            font-size: 0.66rem;
             width: 100%;
             word-wrap: break-word;
         }
 
         .card-info span:first-child {
-            font-weight: 600;
+            font-weight: 700;
+            line-height: 1.2;
         }
 
         .card-info span:last-child {
@@ -601,6 +687,16 @@
         .carousel-nav {
             display: flex;
             gap: 1rem;
+            align-items: center;
+        }
+
+        .carousel-label {
+            font-family: 'Manrope', sans-serif;
+            font-size: 0.65rem;
+            letter-spacing: 0.22em;
+            color: var(--muted-color);
+            text-transform: uppercase;
+            margin-right: auto;
         }
 
         .nav-arrow {
@@ -618,7 +714,7 @@
         }
 
         .nav-arrow:hover {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.15);
         }
 
         .side-title {
@@ -626,209 +722,242 @@
             text-align: right;
         }
 
+        .side-sub {
+            font-family: 'Manrope', sans-serif;
+            font-size: 0.72rem;
+            letter-spacing: 0.26em;
+            color: var(--muted-color);
+            text-transform: uppercase;
+            margin-top: 0.8rem;
+        }
+
+        /* ---------- Bottom ticker ---------- */
+        .ticker {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 0.85rem 4%;
+            display: flex;
+            justify-content: center;
+            gap: 2.5rem;
+            font-family: 'Manrope', sans-serif;
+            font-size: 0.66rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.6);
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.55), transparent);
+            z-index: 150;
+            pointer-events: none;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .ticker b {
+            color: var(--accent-color);
+            font-weight: 700;
+        }
+
         @keyframes shine {
-            from {
-                transform: translateX(-100%) rotate(45deg);
-            }
+            from { transform: translateX(-100%) rotate(45deg); }
+            to { transform: translateX(200%) rotate(45deg); }
+        }
 
-            to {
-                transform: translateX(200%) rotate(45deg);
-            }
+        /* ---------- Responsive ---------- */
+        @media (max-width: 1400px) {
+            .main-title, .side-title { font-size: clamp(3rem, 6vw, 6.5rem); }
+            .hero-right { width: 440px; }
         }
 
         @media (max-width: 1200px) {
-            .main-product-3d {
-                width: 100vw;
-                height: 60vh;
-                top: 40%;
-            }
-        }
+            .hero { align-items: flex-start; padding-top: 6.5rem; }
 
-        @media (max-width: 1200px) {
             .hero-content {
-                grid-template-columns: 1fr;
-                padding-top: 8rem;
+                flex-direction: column;
+                align-items: center;
+                justify-content: flex-start;
+                gap: 1.1rem;
             }
 
-            .hero-center {
-                order: -1;
-            }
-
-            .main-title,
-            .side-title {
-                font-size: 5rem;
-            }
-
-            .hero-right {
+            .hero-left {
+                max-width: 100%;
+                height: auto;
+                padding: 0;
+                gap: 0.8rem;
                 align-items: center;
                 text-align: center;
             }
 
-            .side-title {
-                align-self: center;
-                text-align: center;
+            .hero-left .benefits { justify-content: center; }
+            .hero-left .description { max-width: 90vw; }
+            .main-title { font-size: clamp(2.6rem, 9vw, 4rem); }
+
+            .main-product-3d {
+                width: 80vw;
+                max-width: 430px;
+                height: 54vh;
+                top: 47%;
+                opacity: 0.3;
             }
+
+            .hero-right {
+                width: 100%;
+                height: auto;
+                padding: 0;
+                align-items: center;
+                text-align: center;
+                justify-content: flex-start;
+            }
+
+            .product-carousel { align-items: center; }
+            .carousel-nav { justify-content: center; }
+            .carousel-label { display: none; }
+
+            .card { width: 86px; padding: 0.6rem 0.4rem; padding-top: 3.4rem; border-radius: 20px; gap: 0.7rem; }
+            .card .thumb { width: 82px; margin-top: -5rem; }
+            .card-info { font-size: 0.58rem; }
+
+            .nav,
+            .award-badge,
+            .side-title,
+            .side-sub,
+            .leaves-container,
+            .f1, .f3, .f6 { display: none; }
+
+            .f2, .f4, .f5 { width: 72px; height: 72px; }
+            .ticker { font-size: 0.55rem; gap: 1.1rem; letter-spacing: 0.16em; }
+        }
+
+        @media (max-width: 760px), (max-height: 620px) {
+            .header { padding: 1rem 5%; }
+            .description, .ticker { display: none; }
+            .contact-btn { padding: 0.7rem 1.4rem; }
+            .benefit-chip { font-size: 0.6rem; padding: 0.35rem 0.7rem; }
+            .f7, .f8, .f9 { display: none; }
         }
     </style>
 </head>
 
-<body>
+<body data-theme="halfhalf">
+
     <div id="bubbles-container"></div>
 
     <header class="header">
         <div class="logo">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" />
-                <path d="M12 8V16M8 12H16" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            <svg width="38" height="38" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="24" cy="24" r="22" stroke="currentColor" stroke-width="2" opacity="0.5" />
+                <path d="M13 17 L17 22 L24 13 L31 22 L35 17 L33 30 H15 Z" fill="currentColor" />
+                <path d="M15 33 H33 L31 41 H17 Z" fill="currentColor" opacity="0.65" />
             </svg>
-            <span>Soda</span>
+            <span class="logo-text">
+                <b>Iconic</b>
+                <small>JUICE</small>
+            </span>
         </div>
         <nav class="nav glass">
             <a href="#" class="nav-item active">Home</a>
+            <a href="#" class="nav-item">Juices</a>
             <a href="#" class="nav-item">Ingredients</a>
-            <a href="#" class="nav-item">Taste</a>
-            <a href="#" class="nav-item">Eco</a>
-            <a href="#" class="nav-item">Reviews</a>
+            <a href="#" class="nav-item">Halal</a>
+            <a href="#" class="nav-item">Locations</a>
         </nav>
-        <button class="contact-btn">Contact Us</button>
+        <button class="contact-btn">Find Us</button>
     </header>
 
     <main class="hero">
         <div class="hero-content">
+
+            <!-- Far background leaves -->
             <div class="leaves-container">
-                <model-viewer class="leaf l1"
-                    src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/leaves.glb"
-                    environment-image="neutral" exposure="1.0" interaction-prompt="none"
-                    camera-orbit="45deg 75deg 105%"></model-viewer>
-                <model-viewer class="leaf l2"
-                    src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/leaves.glb"
-                    environment-image="neutral" exposure="1.0" interaction-prompt="none"
-                    camera-orbit="-30deg 60deg 105%"></model-viewer>
-                <model-viewer class="leaf l3"
-                    src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/leaves.glb"
-                    environment-image="neutral" exposure="1.0" interaction-prompt="none"
-                    camera-orbit="120deg 85deg 105%"></model-viewer>
-                <model-viewer class="leaf l4"
-                    src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/leaves.glb"
-                    environment-image="neutral" exposure="1.0" interaction-prompt="none"
-                    camera-orbit="10deg 45deg 105%"></model-viewer>
+                <div class="leaf l1"></div>
+                <div class="leaf l2"></div>
+                <div class="leaf l3"></div>
+                <div class="leaf l4"></div>
             </div>
 
+            <!-- Left column -->
             <div class="hero-left">
-                <h1 class="main-title large-animation-1">
-                    <span class="outline">Pure</span><br>
-                    Zero
+                <span class="eyebrow">Live Iconic. Be Iconic.</span>
+                <h1 class="main-title">
+                    <span class="outline">Halal</span><br>
+                    <span class="gold">Body Fuel</span>
                 </h1>
-                <p class="description">
-                    Unleash the crisp taste of zero sugar. <br>
-                    Refreshment redefined in every bubble — <br>
-                    all in one sleek design.
-                </p>
+                <div class="flavor-name" id="flavor-name">Baltimore Half &amp; Half</div>
+                <p class="description" id="flavor-ingredients">Apple · Orange · Turmeric · Ginger</p>
+                <div class="benefits" id="benefits"></div>
                 <div class="cta-group">
                     <button class="primary-btn">
-                        Shop Now
+                        Order Now
                         <span class="plus-icon">+</span>
                     </button>
+                    <span class="price-tag" id="flavor-price">$9.99<small>16 FL OZ</small></span>
                 </div>
                 <div class="award-badge">
                     <div class="award-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 15L15 18L19 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                            <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" />
+                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="12" cy="9" r="6" stroke="currentColor" stroke-width="2" />
+                            <path d="M8.5 14L7 22L12 19L17 22L15.5 14" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
                     </div>
                     <div class="award-text">
-                        <span class="award-title">DESIGN AWARDS</span>
-                        <span class="award-subtitle">PREMIUM BEVERAGE 2025</span>
+                        <span class="award-title">BALTIMORE'S #1 COLD-PRESSED</span>
+                        <span class="award-subtitle">JUICE BRAND IN THE DMV</span>
+                        <span class="stars">★★★★★</span>
                     </div>
                 </div>
             </div>
 
-            <div class="berries-container-bg">
-                <model-viewer class="berry b7"
-                    src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/cherry.glb"
-                    environment-image="neutral" exposure="1.0" interaction-prompt="none"
-                    camera-orbit="-20deg 110deg 105%"></model-viewer>
-                <model-viewer class="berry b8"
-                    src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/cherry.glb"
-                    environment-image="neutral" exposure="1.0" interaction-prompt="none"
-                    camera-orbit="160deg 45deg 105%"></model-viewer>
-                <model-viewer class="berry b9"
-                    src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/cherry.glb"
-                    environment-image="neutral" exposure="1.0" interaction-prompt="none"
-                    camera-orbit="45deg 20deg 105%"></model-viewer>
+            <!-- Background fruits -->
+            <div class="fruits-container-bg">
+                <div class="fruit f7"></div>
+                <div class="fruit f8"></div>
+                <div class="fruit f9"></div>
             </div>
 
+            <!-- Center product -->
             <div class="hero-center">
-                <model-viewer id="product-model"
-                    src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/deit_soda2.glb"
-                    alt="Diet Soda 3D Model" camera-controls disable-zoom shadow-intensity="0"
-                    environment-image="neutral" exposure="1.5" interaction-prompt="none"
-                    camera-orbit="0deg 90deg 380%" field-of-view="30deg" class="main-product-3d">
-                </model-viewer>
+                <div class="main-product-3d" id="product-stage">
+                    <div class="can-shadow"></div>
+                    <div id="bottle"></div>
+                </div>
             </div>
 
-            <div class="berries-container">
-                <model-viewer class="berry b1"
-                    src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/cherry.glb"
-                    environment-image="neutral" exposure="1.2" interaction-prompt="none"
-                    camera-orbit="45deg 120deg 105%"></model-viewer>
-                <model-viewer class="berry b2"
-                    src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/cherry.glb"
-                    environment-image="neutral" exposure="1.2" interaction-prompt="none"
-                    camera-orbit="-120deg 45deg 105%"></model-viewer>
-                <model-viewer class="berry b3"
-                    src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/cherry.glb"
-                    environment-image="neutral" exposure="1.2" interaction-prompt="none"
-                    camera-orbit="200deg 90deg 105%"></model-viewer>
-                <model-viewer class="berry b4"
-                    src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/cherry.glb"
-                    environment-image="neutral" exposure="1.2" interaction-prompt="none"
-                    camera-orbit="10deg 20deg 105%"></model-viewer>
-                <model-viewer class="berry b5"
-                    src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/cherry.glb"
-                    environment-image="neutral" exposure="1.2" interaction-prompt="none"
-                    camera-orbit="-45deg 160deg 105%"></model-viewer>
-                <model-viewer class="berry b6"
-                    src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/cherry.glb"
-                    environment-image="neutral" exposure="1.2" interaction-prompt="none"
-                    camera-orbit="80deg 75deg 105%"></model-viewer>
+            <!-- Foreground fruits -->
+            <div class="fruits-container">
+                <div class="fruit f1"></div>
+                <div class="fruit f2"></div>
+                <div class="fruit f3"></div>
+                <div class="fruit f4"></div>
+                <div class="fruit f5"></div>
+                <div class="fruit f6"></div>
             </div>
 
+            <!-- Right column -->
             <div class="hero-right">
                 <div class="product-carousel">
-                    <div class="carousel-cards">
-                        <div class="card active" data-flavor="classic">
-                            <img src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/Green%20Soda.png"
-                                alt="Diet Classic">
-                            <div class="card-info">
-                                <span>Diet Classic</span>
-                                <span>$2.99</span>
-                            </div>
-                        </div>
-                        <div class="card" data-flavor="blue">
-                            <img src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/Blue%20Soda.png"
-                                alt="Zero Lime" style="filter: brightness(0.7);">
-                            <div class="card-info">
-                                <span>Zero Lime</span>
-                                <span>$2.99</span>
-                            </div>
-                        </div>
-                    </div>
+                    <div class="carousel-cards" id="cards"></div>
                     <div class="carousel-nav">
-                        <button class="nav-arrow">←</button>
-                        <button class="nav-arrow">→</button>
+                        <span class="carousel-label">Pick your fuel</span>
+                        <button class="nav-arrow" id="prev" aria-label="Previous flavor">←</button>
+                        <button class="nav-arrow" id="next" aria-label="Next flavor">→</button>
                     </div>
                 </div>
-                <h2 class="side-title large-animation-1">
-                    <span class="outline">Refreshingly</span><br>
-                    Clean
-                </h2>
+                <div>
+                    <h2 class="side-title">
+                        <span class="outline">Cold</span><br>
+                        Pressed
+                    </h2>
+                    <div class="side-sub">Ready to feel better?</div>
+                </div>
             </div>
+
         </div>
     </main>
+
+    <div class="ticker">
+        <span>Fresh Ingredients</span><span>Cold-Pressed</span><span>Nutrient-Dense</span><span><b>Halal Body Fuel</b></span>
+    </div>
 
     <svg style="position: absolute; width: 0; height: 0; opacity: 0; pointer-events: none;">
         <filter id="frosted">
@@ -836,202 +965,562 @@
             <feDisplacementMap in="SourceGraphic" in2="noise" scale="80" xChannelSelector="R" yChannelSelector="G" />
         </filter>
     </svg>
-    <div style="display: none;">
-        <!-- Preload berry models to avoid lag during switch -->
-        <model-viewer
-            src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/blueberry.glb"></model-viewer>
-        <model-viewer
-            src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/cherry.glb"></model-viewer>
-    </div>
 
     <script>
-        const modelViewer = document.querySelector('#product-model');
-        const berriesFG = document.querySelector('.berries-container');
-        const berriesBG = document.querySelector('.berries-container-bg');
+        /* ============================================================
+           Tween engine — uses GSAP when the CDN is reachable, and
+           falls back to this tiny built-in so the page still animates
+           fully offline. Same call surface for the code below.
+           ============================================================ */
+        const gsap = window.gsap || (function () {
+            const EASE = {
+                'none': t => t,
+                'power2.in': t => t * t * t,
+                'power2.out': t => 1 - Math.pow(1 - t, 3),
+                'power2.inOut': t => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2
+            };
+            function ease(spec) {
+                if (typeof spec === 'function') return spec;
+                if (!spec) return EASE['power2.out'];
+                const back = /^back\.out\(([\d.]+)\)$/.exec(spec);
+                if (back) {
+                    const c1 = 1.70158 * parseFloat(back[1]), c3 = c1 + 1;
+                    return t => 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2);
+                }
+                return EASE[spec] || EASE['power2.out'];
+            }
+            const SKIP = ['duration', 'ease', 'onUpdate', 'onComplete', 'onStart', 'stagger', 'delay'];
+            const isEl = t => !!t && t.nodeType === 1;
+            function toArray(t) {
+                if (!t) return [];
+                if (isEl(t)) return [t];
+                if (typeof t.length === 'number' && typeof t !== 'string') return Array.prototype.slice.call(t);
+                return [t];
+            }
+            function store(el) {
+                if (!el.__tw) {
+                    const cs = getComputedStyle(el);
+                    el.__tw = { x: 0, y: 0, rotation: 0, scale: 1, opacity: parseFloat(cs.opacity) || 1 };
+                }
+                return el.__tw;
+            }
+            function render(el) {
+                const s = el.__tw;
+                el.style.transform = 'translate(' + s.x + 'px, ' + s.y + 'px) rotate(' + s.rotation + 'deg) scale(' + s.scale + ')';
+                el.style.opacity = s.opacity;
+            }
+            function apply(target, vars) {
+                if (isEl(target)) {
+                    const s = store(target);
+                    Object.keys(vars).forEach(k => { if (SKIP.indexOf(k) < 0) s[k] = vars[k]; });
+                    render(target);
+                } else {
+                    Object.keys(vars).forEach(k => { if (SKIP.indexOf(k) < 0) target[k] = vars[k]; });
+                }
+            }
+            function run(target, vars, done) {
+                const dur = (vars.duration != null ? vars.duration : 0.5) * 1000;
+                const fn = ease(vars.ease);
+                const node = isEl(target);
+                const s = node ? store(target) : target;
+                const keys = [];
+                Object.keys(vars).forEach(k => {
+                    if (SKIP.indexOf(k) >= 0) return;
+                    const from = s[k];
+                    keys.push({ k: k, from: typeof from === 'number' ? from : 0, to: vars[k] });
+                });
+                const startAt = performance.now() + (vars.delay || 0) * 1000;
+                let started = false;
+                function frame(now) {
+                    if (now < startAt) { requestAnimationFrame(frame); return; }
+                    if (!started) { started = true; if (vars.onStart) vars.onStart(); }
+                    const p = dur <= 0 ? 1 : Math.min(1, (now - startAt) / dur);
+                    const v = fn(p);
+                    keys.forEach(o => { s[o.k] = o.from + (o.to - o.from) * v; });
+                    if (node) render(target);
+                    if (vars.onUpdate) vars.onUpdate();
+                    if (p < 1) requestAnimationFrame(frame);
+                    else { if (vars.onComplete) vars.onComplete(); if (done) done(); }
+                }
+                requestAnimationFrame(frame);
+            }
+            function to(targets, vars) {
+                const arr = toArray(targets);
+                arr.forEach((t, i) => {
+                    const v = Object.assign({}, vars);
+                    v.delay = (vars.delay || 0) + (vars.stagger ? vars.stagger * i : 0);
+                    if (i !== arr.length - 1) delete v.onComplete;
+                    if (i !== 0) delete v.onStart;
+                    run(t, v);
+                });
+                return null;
+            }
+            function timeline() {
+                const queue = [];
+                let running = false;
+                function next() {
+                    const step = queue.shift();
+                    if (!step) { running = false; return; }
+                    run(step.t, step.v, next);
+                }
+                const tl = {
+                    to(t, v) {
+                        queue.push({ t: toArray(t)[0], v: v });
+                        if (!running) { running = true; requestAnimationFrame(next); }
+                        return tl;
+                    }
+                };
+                return tl;
+            }
+            return {
+                to: to,
+                set: (targets, vars) => toArray(targets).forEach(t => apply(t, vars)),
+                fromTo: (targets, from, vars) => { toArray(targets).forEach(t => apply(t, from)); return to(targets, vars); },
+                timeline: timeline
+            };
+        })();
+
+        /* ============================================================
+           ICONIC JUICE — flavor data (from the bottle line-up)
+           ============================================================ */
+        const FLAVORS = {
+            halfhalf: {
+                key: 'halfhalf',
+                name: 'Baltimore Half & Half',
+                short: 'Half & Half',
+                ingredients: 'Apple · Orange · Turmeric · Ginger',
+                price: '$9.99',
+                size: '16 FL OZ',
+                benefits: ['Energy', 'Immunity', 'Digestion', 'Anti-Inflammatory'],
+                label: { top: 'BALTIMORE', script: 'Half & Half', tag: 'JUICE', strap: 'APPLE · ORANGE · TURMERIC · GINGER' },
+                liquid: ['#ffd36a', '#f39215', '#a8500a'],
+                labelInk: '#ffd98a',
+                fruits: ['orange', 'apple', 'turmeric', 'ginger', 'orange', 'lemon', 'ginger', 'apple', 'orange']
+            },
+            beet: {
+                key: 'beet',
+                name: 'Beet Root Boost',
+                short: 'Beet Root',
+                ingredients: 'Beet · Carrot · Apple · Ginger · Lemon',
+                price: '$9.99',
+                size: '16 FL OZ',
+                benefits: ['Energy', 'Stamina', 'Circulation', 'Immunity', 'Detox'],
+                label: { top: 'BEET ROOT', script: 'Boost', tag: 'JUICE', strap: 'STAMINA IN EVERY SIP' },
+                liquid: ['#ff5f8a', '#c9123f', '#66041f'],
+                labelInk: '#ff9db8',
+                fruits: ['beet', 'carrot', 'apple', 'ginger', 'beet', 'lemon', 'carrot', 'beet', 'apple']
+            },
+            blue: {
+                key: 'blue',
+                name: 'Iconic Blue',
+                short: 'Iconic Blue',
+                ingredients: 'Blue Spirulina · Pineapple · Coconut · Ginger · Lemon',
+                price: '$9.99',
+                size: '16 FL OZ',
+                benefits: ['Energy', 'Hydration', 'Immunity', 'Detox', 'Electrolytes'],
+                label: { top: 'ICONIC', script: 'Blue', tag: 'JUICE', strap: '100% JUICE · COLD-PRESSED' },
+                liquid: ['#6fd8ff', '#0f7fd6', '#053a70'],
+                labelInk: '#a9e4ff',
+                fruits: ['pineapple', 'coconut', 'droplet', 'ginger', 'pineapple', 'lemon', 'coconut', 'droplet', 'pineapple']
+            },
+            green: {
+                key: 'green',
+                name: 'Detox Green',
+                short: 'Detox Green',
+                ingredients: 'Cucumber · Celery · Kale · Apple · Ginger · Lime · Spinach',
+                price: '$9.99',
+                size: '16 FL OZ',
+                benefits: ['Detox', 'Cleanse', 'Alkalize', 'Nutrient Dense'],
+                label: { top: 'DETOX', script: 'Green', tag: 'JUICE', strap: 'CUCUMBER · CELERY · KALE · APPLE · LIME' },
+                liquid: ['#b9e86a', '#5aa518', '#1f4a08'],
+                labelInk: '#d4f59a',
+                fruits: ['cucumber', 'kale', 'celery', 'lime', 'cucumber', 'apple', 'kale', 'celery', 'lime']
+            }
+        };
+        const ORDER = ['halfhalf', 'beet', 'blue', 'green'];
+        let currentFlavor = 'halfhalf';
+
+        /* ============================================================
+           Inline SVG produce — all artwork is generated, no assets
+           ============================================================ */
+        const wrap = inner => '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">' + inner + '</svg>';
+
+        function citrus(rind, flesh, pith, count) {
+            let seg = '';
+            for (let i = 0; i < count; i++) {
+                const a = (i / count) * Math.PI * 2 + 0.3;
+                const x1 = 50 + Math.cos(a) * 7, y1 = 50 + Math.sin(a) * 7;
+                const x2 = 50 + Math.cos(a) * 37, y2 = 50 + Math.sin(a) * 37;
+                seg += '<line x1="' + x1.toFixed(1) + '" y1="' + y1.toFixed(1) + '" x2="' + x2.toFixed(1) +
+                    '" y2="' + y2.toFixed(1) + '" stroke="' + pith + '" stroke-width="3.2" stroke-linecap="round"/>';
+            }
+            return wrap(
+                '<circle cx="50" cy="50" r="46" fill="' + rind + '"/>' +
+                '<circle cx="50" cy="50" r="41" fill="' + pith + '" opacity="0.85"/>' +
+                '<circle cx="50" cy="50" r="38" fill="' + flesh + '"/>' + seg +
+                '<circle cx="50" cy="50" r="6" fill="' + pith + '"/>' +
+                '<ellipse cx="34" cy="31" rx="13" ry="7" fill="#ffffff" opacity="0.25" transform="rotate(-35 34 31)"/>');
+        }
+
+        function rootVeg(main, light, dark) {
+            return wrap(
+                '<path d="M23 61c-6-11 3-23 15-22 6 1 9-9 18-10 11-1 17 9 14 17-2 7 7 9 9 17 2 10-7 18-16 15-7-2-11 7-20 6-12-2-14-13-20-23z" fill="' + main + '" stroke="' + dark + '" stroke-width="2.5" stroke-linejoin="round"/>' +
+                '<ellipse cx="43" cy="48" rx="11" ry="8" fill="' + light + '" opacity="0.55" transform="rotate(-25 43 48)"/>' +
+                '<ellipse cx="66" cy="62" rx="9" ry="7" fill="' + light + '" opacity="0.4" transform="rotate(20 66 62)"/>' +
+                '<path d="M38 39c-8 3-12 11-11 19" stroke="' + light + '" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.7"/>' +
+                '<path d="M62 30c6 4 8 11 6 18" stroke="' + light + '" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.6"/>' +
+                '<path d="M30 72c9 5 21 5 31-1" stroke="' + dark + '" stroke-width="3.5" fill="none" stroke-linecap="round" opacity="0.5"/>');
+        }
+
+        function leafShape(main, dark, vein) {
+            return wrap(
+                '<path d="M52 95C22 80 10 46 26 13c34 0 58 23 56 51-1 22-16 33-30 31z" fill="' + main + '"/>' +
+                '<path d="M52 95C36 70 32 38 26 13" stroke="' + vein + '" stroke-width="3.5" fill="none" stroke-linecap="round"/>' +
+                '<path d="M40 66c10-2 18-8 22-16M34 46c9-2 15-7 19-14" stroke="' + vein + '" stroke-width="2.6" fill="none" stroke-linecap="round" opacity="0.8"/>' +
+                '<path d="M52 95c-8-24-6-52 6-70" stroke="' + dark + '" stroke-width="2" fill="none" opacity="0.35"/>');
+        }
+
+        const PRODUCE = {
+            orange: () => citrus('#d9700f', '#ffae3c', '#fff1d2', 9),
+            lemon: () => citrus('#cfa60f', '#ffe259', '#fff8dc', 8),
+            lime: () => citrus('#4f8a12', '#a9dd3c', '#edffcb', 8),
+            cucumber: () => citrus('#2f6b2b', '#cdeb92', '#eaf8cf', 0).replace('</svg>',
+                '<circle cx="50" cy="50" r="26" fill="#e9f7cd" opacity="0.55"/>' +
+                '<g fill="#7fae3c">' +
+                '<ellipse cx="50" cy="34" rx="3.4" ry="5.4"/><ellipse cx="63" cy="43" rx="3.4" ry="5.4" transform="rotate(50 63 43)"/>' +
+                '<ellipse cx="58" cy="60" rx="3.4" ry="5.4" transform="rotate(115 58 60)"/><ellipse cx="42" cy="60" rx="3.4" ry="5.4" transform="rotate(-115 42 60)"/>' +
+                '<ellipse cx="37" cy="43" rx="3.4" ry="5.4" transform="rotate(-50 37 43)"/></g></svg>'),
+            pineapple: (() => {
+                let bumps = '';
+                for (let i = 0; i < 16; i++) {
+                    const a = (i / 16) * Math.PI * 2;
+                    bumps += '<circle cx="' + (50 + Math.cos(a) * 44).toFixed(1) + '" cy="' + (50 + Math.sin(a) * 44).toFixed(1) + '" r="6" fill="#c98a12"/>';
+                }
+                return () => wrap(bumps +
+                    '<circle cx="50" cy="50" r="44" fill="#e0a41c"/>' +
+                    '<circle cx="50" cy="50" r="36" fill="#ffd75e"/>' +
+                    '<circle cx="50" cy="50" r="27" fill="none" stroke="#e8b83a" stroke-width="3" stroke-dasharray="5 4"/>' +
+                    '<circle cx="50" cy="50" r="17" fill="none" stroke="#e8b83a" stroke-width="3" stroke-dasharray="5 4"/>' +
+                    '<circle cx="50" cy="50" r="8" fill="#fff3c8"/>' +
+                    '<ellipse cx="34" cy="32" rx="12" ry="6" fill="#ffffff" opacity="0.28" transform="rotate(-35 34 32)"/>');
+            })(),
+            apple: () => wrap(
+                '<path d="M50 32c-9-9-25-8-31 4-7 13-2 34 8 47 6 8 13 12 17 8 3-3 9-3 12 0 4 4 11 0 17-8 10-13 15-34 8-47-6-12-22-13-31-4z" fill="#cf2b43"/>' +
+                '<path d="M50 32c-9-9-25-8-31 4-7 13-2 34 8 47 3 4 6 7 9 8-7-17-9-42 14-59z" fill="#ec5f74" opacity="0.5"/>' +
+                '<path d="M50 32c0-9 2-15 8-20" stroke="#6b4423" stroke-width="4.5" fill="none" stroke-linecap="round"/>' +
+                '<path d="M58 15c8-7 18-6 21-2 2 5-4 13-12 14-7 1-12-4-9-12z" fill="#3f9d4a"/>'),
+            beet: () => wrap(
+                '<path d="M50 97C35 89 23 73 23 57c0-13 12-22 27-22s27 9 27 22c0 16-12 32-27 40z" fill="#8f1450"/>' +
+                '<path d="M38 46c-7 7-10 18-7 29" stroke="#cf5a90" stroke-width="4" fill="none" opacity="0.55" stroke-linecap="round"/>' +
+                '<path d="M50 35V10M50 35 38 14M50 35 63 15" stroke="#3f8f3c" stroke-width="4" stroke-linecap="round"/>' +
+                '<path d="M38 14c-9-4-18 1-18 8 9 5 17 2 18-8z" fill="#4faa46"/>' +
+                '<path d="M63 15c3-10 13-13 19-9-2 10-11 15-19 9z" fill="#5cbb50"/>' +
+                '<path d="M50 10c-5-8-2-8 0-9 3 1 5 2 0 9z" fill="#4faa46"/>'),
+            carrot: () => wrap(
+                '<path d="M50 96 34 45c5-6 27-6 32 0z" fill="#ec7a1c"/>' +
+                '<path d="M50 96 41 47c3-3 10-3 13 0z" fill="#ff9c42" opacity="0.6"/>' +
+                '<g stroke="#c95c0c" stroke-width="2.4" stroke-linecap="round" opacity="0.7"><path d="M38 58h9M41 70h9M44 82h6"/></g>' +
+                '<path d="M50 45V16M50 30 33 18M50 30 68 17" stroke="#3f8f3c" stroke-width="4" stroke-linecap="round"/>' +
+                '<circle cx="31" cy="15" r="7" fill="#4faa46"/><circle cx="70" cy="14" r="7" fill="#5cbb50"/><circle cx="50" cy="12" r="7" fill="#4faa46"/>'),
+            ginger: () => rootVeg('#d9a95f', '#f0cd96', '#a97c36'),
+            turmeric: () => rootVeg('#e08512', '#f5b554', '#a85c06'),
+            celery: () => wrap(
+                '<path d="M36 96c-8-27-6-57 5-84l19 5c-9 26-10 53-3 79z" fill="#a8d156"/>' +
+                '<path d="M41 97c-6-27-4-56 6-82l5 1c-9 26-11 54-5 81z" fill="#c3e483" opacity="0.7"/>' +
+                '<g stroke="#7ba832" stroke-width="2.2" stroke-linecap="round" opacity="0.8"><path d="M44 90c-4-24-2-48 5-68M52 91c-3-24-1-47 6-66"/></g>' +
+                '<path d="M41 12c-6-8-2-9 6-6 7-6 12-3 9 4 8-2 9 3 2 7z" fill="#4faa46"/>'),
+            kale: () => leafShape('#2f7d3a', '#0f3f19', '#6fc17a'),
+            spinach: () => leafShape('#3f9d4a', '#1b5c26', '#8fd49a'),
+            coconut: () => wrap(
+                '<circle cx="50" cy="50" r="46" fill="#6b4630"/>' +
+                '<circle cx="50" cy="50" r="46" fill="none" stroke="#4a2e1d" stroke-width="4"/>' +
+                '<circle cx="50" cy="50" r="35" fill="#fbf6ec"/>' +
+                '<circle cx="50" cy="50" r="24" fill="#efe6d4"/>' +
+                '<g stroke="#8a5c3c" stroke-width="2" opacity="0.45"><path d="M20 26c6 5 9 12 9 20M78 70c-6-4-9-11-9-19"/></g>' +
+                '<ellipse cx="36" cy="32" rx="11" ry="6" fill="#ffffff" opacity="0.5" transform="rotate(-35 36 32)"/>'),
+            droplet: () => wrap(
+                '<path d="M50 7c18 25 30 40 30 53a30 30 0 0 1-60 0C20 47 32 32 50 7z" fill="#1585d6"/>' +
+                '<path d="M50 7c9 13 17 23 22 32-9 6-21 4-27-4-4-6-2-16 5-28z" fill="#5cc3f7" opacity="0.6"/>' +
+                '<ellipse cx="36" cy="66" rx="8" ry="12" fill="#ffffff" opacity="0.28" transform="rotate(-20 36 66)"/>')
+        };
+
+        /* ---------- Bottle artwork ---------- */
+        let uid = 0;
+        function bottleSVG(f) {
+            const id = 'b' + (uid++);
+            const L = f.label;
+            let bullets = '';
+            f.benefits.slice(0, 5).forEach((b, i) => {
+                const y = 432 + i * 26;
+                bullets +=
+                    '<circle cx="118" cy="' + (y - 4) + '" r="5" fill="none" stroke="' + f.labelInk + '" stroke-width="1.6"/>' +
+                    '<circle cx="118" cy="' + (y - 4) + '" r="1.8" fill="' + f.labelInk + '"/>' +
+                    '<text x="134" y="' + y + '" font-family="Manrope, sans-serif" font-size="14" letter-spacing="2.2" fill="#ffffff" opacity="0.92">' +
+                    b.toUpperCase() + '</text>';
+            });
+            return '' +
+                '<svg viewBox="0 0 320 700" xmlns="http://www.w3.org/2000/svg">' +
+                '<defs>' +
+                '<linearGradient id="' + id + 'liq" x1="0" y1="0" x2="1" y2="1">' +
+                '<stop offset="0%" stop-color="' + f.liquid[0] + '"/>' +
+                '<stop offset="52%" stop-color="' + f.liquid[1] + '"/>' +
+                '<stop offset="100%" stop-color="' + f.liquid[2] + '"/></linearGradient>' +
+                '<linearGradient id="' + id + 'cap" x1="0" y1="0" x2="1" y2="0">' +
+                '<stop offset="0%" stop-color="#0a0a0a"/><stop offset="35%" stop-color="#3a3a3a"/>' +
+                '<stop offset="65%" stop-color="#151515"/><stop offset="100%" stop-color="#050505"/></linearGradient>' +
+                '<linearGradient id="' + id + 'gold" x1="0" y1="0" x2="0" y2="1">' +
+                '<stop offset="0%" stop-color="#fff0c4"/><stop offset="50%" stop-color="#f2c14e"/>' +
+                '<stop offset="100%" stop-color="#a9762a"/></linearGradient>' +
+                '<clipPath id="' + id + 'clip"><path d="M130 66C130 104 44 112 44 176v428q0 44 44 44h144q44 0 44-44V176c0-64-86-72-86-110z"/></clipPath>' +
+                '</defs>' +
+                /* cap */
+                '<rect x="116" y="8" width="88" height="58" rx="12" fill="url(#' + id + 'cap)"/>' +
+                '<g stroke="#000000" stroke-opacity="0.55" stroke-width="2">' +
+                '<path d="M126 14v46M138 14v46M150 14v46M162 14v46M174 14v46M186 14v46M194 14v46"/></g>' +
+                '<rect x="116" y="8" width="88" height="10" rx="5" fill="#ffffff" opacity="0.12"/>' +
+                /* body */
+                '<path d="M130 66C130 104 44 112 44 176v428q0 44 44 44h144q44 0 44-44V176c0-64-86-72-86-110z" fill="url(#' + id + 'liq)"/>' +
+                '<g clip-path="url(#' + id + 'clip)">' +
+                '<rect x="44" y="66" width="70" height="612" fill="#ffffff" opacity="0.16"/>' +
+                '<rect x="238" y="66" width="38" height="612" fill="#000000" opacity="0.22"/>' +
+                '<rect x="60" y="180" width="18" height="420" rx="9" fill="#ffffff" opacity="0.35"/>' +
+                '<rect x="88" y="200" width="7" height="360" rx="4" fill="#ffffff" opacity="0.22"/>' +
+                '</g>' +
+                '<path d="M130 66C130 104 44 112 44 176v428q0 44 44 44h144q44 0 44-44V176c0-64-86-72-86-110z" fill="none" stroke="#ffffff" stroke-opacity="0.25" stroke-width="2"/>' +
+                /* label panel */
+                '<rect x="52" y="250" width="216" height="330" rx="20" fill="#08110f" opacity="0.72"/>' +
+                '<rect x="52" y="250" width="216" height="330" rx="20" fill="none" stroke="url(#' + id + 'gold)" stroke-opacity="0.55" stroke-width="1.5"/>' +
+                /* brand mark */
+                '<g transform="translate(160 288)">' +
+                '<path d="M-14 -8 L-7 0 L0 -12 L7 0 L14 -8 L11 8 H-11 Z" fill="url(#' + id + 'gold)"/>' +
+                '</g>' +
+                '<text x="160" y="318" text-anchor="middle" font-family="Manrope, sans-serif" font-size="13" letter-spacing="5" fill="url(#' + id + 'gold)">ICONIC JUICE</text>' +
+                /* flavor name */
+                '<text x="160" y="352" text-anchor="middle" font-family="Manrope, sans-serif" font-weight="700" font-size="24" letter-spacing="3" fill="#ffffff">' + L.top + '</text>' +
+                '<text x="160" y="394" text-anchor="middle" font-family="Galada, cursive" font-size="36" fill="' + f.labelInk + '">' + L.script + '</text>' +
+                '<line x1="88" y1="408" x2="232" y2="408" stroke="url(#' + id + 'gold)" stroke-opacity="0.6" stroke-width="1.5"/>' +
+                bullets +
+                '<text x="160" y="562" text-anchor="middle" font-family="Manrope, sans-serif" font-size="10" letter-spacing="2" fill="#ffffff" opacity="0.6">' + L.strap + '</text>' +
+                /* bottom info */
+                '<text x="160" y="622" text-anchor="middle" font-family="Manrope, sans-serif" font-size="12" letter-spacing="3" fill="#ffffff" opacity="0.75">HALAL BODY FUEL</text>' +
+                '<text x="160" y="644" text-anchor="middle" font-family="Manrope, sans-serif" font-size="10" letter-spacing="2" fill="#ffffff" opacity="0.5">16 FL OZ (473 ML)</text>' +
+                '</svg>';
+        }
+
+        /* ============================================================
+           Build the page
+           ============================================================ */
+        const stage = document.getElementById('product-stage');
+        const bottleEl = document.getElementById('bottle');
+        const fruitsFG = document.querySelector('.fruits-container');
+        const fruitsBG = document.querySelector('.fruits-container-bg');
         const leavesBG = document.querySelector('.leaves-container');
-        const allBerries = document.querySelectorAll('.berry');
-        const cards = document.querySelectorAll('.card');
+        const allFruits = document.querySelectorAll('.fruit');
+        const cardsWrap = document.getElementById('cards');
+
         let isSwitching = false;
         let switchSpin = 0;
-        let blueTexture = null;
-        let greenTexture = null;
 
-        // Preload textures & Warm up shaders
-        modelViewer.addEventListener('load', async () => {
-            try {
-                blueTexture = await modelViewer.createTexture('https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/blue%20base%20color.jpg');
-                greenTexture = await modelViewer.createTexture('https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/green%20base%20color.jpg');
+        function renderBottle(flavorKey) {
+            bottleEl.innerHTML = bottleSVG(FLAVORS[flavorKey]);
+        }
 
-                // Shader Warm-up: Briefly apply textures to compile shaders
-                if (modelViewer.model) {
-                    const material = modelViewer.model.materials[0];
-                    if (material && material.pbrMetallicRoughness.baseColorTexture) {
-                        // Apply blue
-                        material.pbrMetallicRoughness.baseColorTexture.setTexture(blueTexture);
-                        await new Promise(r => requestAnimationFrame(r));
-                        // Apply green back
-                        material.pbrMetallicRoughness.baseColorTexture.setTexture(greenTexture);
-                    }
-                }
-            } catch (e) { console.error("Texture preload failed", e); }
-        });
-
-        cards.forEach(card => {
-            card.addEventListener('click', () => {
-                if (isSwitching) return;
-                cards.forEach(c => c.classList.remove('active'));
-                card.classList.add('active');
-                const flavor = card.dataset.flavor;
-                switchFlavor(flavor);
+        function renderFruits(flavorKey) {
+            const list = FLAVORS[flavorKey].fruits;
+            allFruits.forEach((el, i) => {
+                const kind = list[i % list.length];
+                el.innerHTML = (PRODUCE[kind] || PRODUCE.apple)();
             });
+        }
+
+        function renderLeaves(flavorKey) {
+            const dark = flavorKey === 'green';
+            document.querySelectorAll('.leaf').forEach((el, i) => {
+                el.innerHTML = (i % 2 === 0 ? PRODUCE.spinach : PRODUCE.kale)();
+                el.style.opacity = dark ? 0.7 : 0.45;
+            });
+        }
+
+        function renderInfo(flavorKey) {
+            const f = FLAVORS[flavorKey];
+            document.getElementById('flavor-name').textContent = f.name;
+            document.getElementById('flavor-ingredients').textContent = f.ingredients;
+            document.getElementById('flavor-price').innerHTML = f.price + '<small>' + f.size + '</small>';
+            document.getElementById('benefits').innerHTML = f.benefits
+                .map(b => '<span class="benefit-chip"><i></i>' + b + '</span>').join('');
+        }
+
+        function buildCards() {
+            cardsWrap.innerHTML = ORDER.map(key => {
+                const f = FLAVORS[key];
+                return '<div class="card' + (key === currentFlavor ? ' active' : '') + '" data-flavor="' + key + '">' +
+                    '<div class="thumb">' + bottleSVG(f) + '</div>' +
+                    '<div class="card-info"><span>' + (f.short || f.name) + '</span><span>' + f.price + '</span></div>' +
+                    '</div>';
+            }).join('');
+
+            cardsWrap.querySelectorAll('.card').forEach(card => {
+                card.addEventListener('click', () => {
+                    if (isSwitching) return;
+                    const flavor = card.dataset.flavor;
+                    if (flavor === currentFlavor) return;
+                    setActiveCard(flavor);
+                    switchFlavor(flavor);
+                });
+            });
+        }
+
+        function setActiveCard(flavor) {
+            cardsWrap.querySelectorAll('.card').forEach(c => {
+                c.classList.toggle('active', c.dataset.flavor === flavor);
+            });
+        }
+
+        function step(dir) {
+            if (isSwitching) return;
+            const i = ORDER.indexOf(currentFlavor);
+            const next = ORDER[(i + dir + ORDER.length) % ORDER.length];
+            setActiveCard(next);
+            switchFlavor(next);
+        }
+        document.getElementById('prev').addEventListener('click', () => step(-1));
+        document.getElementById('next').addEventListener('click', () => step(1));
+        window.addEventListener('keydown', e => {
+            if (e.key === 'ArrowLeft') step(-1);
+            if (e.key === 'ArrowRight') step(1);
         });
 
-        async function switchFlavor(flavor) {
+        /* ============================================================
+           Flavor switch choreography
+           ============================================================ */
+        function switchFlavor(flavor) {
             if (isSwitching) return;
             isSwitching = true;
-            const body = document.body;
-            const berries = document.querySelectorAll('.berry');
-            const heroCenter = document.querySelector('.hero-center');
+            currentFlavor = flavor;
 
-            // 1. Background Animation
-            const targetColors = flavor === 'blue' ?
-                { inner: '#0b4f8a', mid: '#04294e', outer: '#010c14' } :
-                { inner: '#0b8a78', mid: '#044e3b', outer: '#011411' };
+            /* 1. Background morphs to the flavor's theme */
+            document.body.dataset.theme = flavor;
 
-            gsap.to(body, {
-                '--bg-inner': targetColors.inner,
-                '--bg-mid': targetColors.mid,
-                '--bg-outer': targetColors.outer,
-                duration: 1.5,
-                ease: 'power2.inOut'
-            });
-
-            // 2. Can Spin Animation (Simple 360 spin + blur with back settle)
+            /* 2. Bottle spin — 720deg with motion blur, swap at the peak */
             const spinObj = { val: 0, blur: 0 };
             gsap.to(spinObj, {
                 val: 360,
                 blur: 15,
                 duration: 0.6,
-                ease: "power2.in",
+                ease: 'power2.in',
                 onUpdate: () => {
                     switchSpin = spinObj.val;
-                    modelViewer.style.filter = `blur(${spinObj.blur}px)`;
+                    stage.style.filter = 'blur(' + spinObj.blur + 'px)';
                 },
-                onComplete: async () => {
-                    // SWAP at peak
-                    if (flavor === 'blue') {
-                        body.classList.add('blue-theme');
-                        if (modelViewer.model && blueTexture) {
-                            modelViewer.model.materials.forEach(material => {
-                                if (material.pbrMetallicRoughness.baseColorTexture) {
-                                    material.pbrMetallicRoughness.baseColorTexture.setTexture(blueTexture);
-                                }
-                            });
-                        }
-                    } else {
-                        body.classList.remove('blue-theme');
-                        if (modelViewer.model && greenTexture) {
-                            modelViewer.model.materials.forEach(material => {
-                                if (material.pbrMetallicRoughness.baseColorTexture) {
-                                    material.pbrMetallicRoughness.baseColorTexture.setTexture(greenTexture);
-                                }
-                            });
-                        }
-                    }
+                onComplete: () => {
+                    /* SWAP at peak */
+                    renderBottle(flavor);
+                    renderLeaves(flavor);
 
                     gsap.to(spinObj, {
                         val: 720,
                         blur: 0,
                         duration: 1.5,
-                        ease: "back.out(0.7)",
+                        ease: 'back.out(0.7)',
                         onUpdate: () => {
                             switchSpin = spinObj.val;
-                            modelViewer.style.filter = `blur(${spinObj.blur}px)`;
+                            stage.style.filter = 'blur(' + spinObj.blur + 'px)';
                         },
                         onComplete: () => {
                             switchSpin = 0;
-                            modelViewer.style.filter = 'none';
+                            stage.style.filter = 'none';
                         }
                     });
                 }
             });
 
-            // 3. Berries "Hide & Reveal" with Dynamic Positioning
-            let completedBerries = 0;
-            berries.forEach((berry, i) => {
-                const bW = berry.offsetWidth / 2;
-                const bH = berry.offsetHeight / 2;
-                const centerX = (window.innerWidth / 2 - berry.offsetLeft - bW);
-                const centerY = (window.innerHeight / 2 - berry.offsetTop - bH);
+            /* 3. Copy swap */
+            const copy = ['#flavor-name', '#flavor-ingredients', '#benefits', '#flavor-price'].map(s => document.querySelector(s));
+            gsap.to(copy, {
+                opacity: 0,
+                y: 14,
+                duration: 0.3,
+                stagger: 0.04,
+                ease: 'power2.in',
+                onComplete: () => {
+                    renderInfo(flavor);
+                    gsap.fromTo(copy, { opacity: 0, y: -14 }, {
+                        opacity: 1, y: 0, duration: 0.5, stagger: 0.06, ease: 'power2.out'
+                    });
+                }
+            });
 
-                const startAngle = parseFloat(berry.dataset.angle) || 0;
-                const currentBaseX = parseFloat(berry.dataset.baseX) || 0;
-                const currentBaseY = parseFloat(berry.dataset.baseY) || 0;
+            /* 4. Fruits implode to center, swap produce, explode back out */
+            const fruits = document.querySelectorAll('.fruit');
+            const newList = FLAVORS[flavor].fruits;
+            let completed = 0;
 
-                // New random target position - Increased range for visibility
+            fruits.forEach((fruit, i) => {
+                const startAngle = parseFloat(fruit.dataset.angle) || 0;
+                const currentBaseX = parseFloat(fruit.dataset.baseX) || 0;
+                const currentBaseY = parseFloat(fruit.dataset.baseY) || 0;
+
+                gsap.set(fruit, {
+                    rotation: startAngle,
+                    x: currentBaseX,
+                    y: currentBaseY,
+                    scale: 1,
+                    opacity: parseFloat(getComputedStyle(fruit).opacity) || 1
+                });
+
+                const rect = fruit.getBoundingClientRect();
+                const centerX = currentBaseX + (window.innerWidth / 2 - (rect.left + rect.width / 2));
+                const centerY = currentBaseY + (window.innerHeight / 2 - (rect.top + rect.height / 2));
+
+                /* New random target position */
                 const nextBaseX = (Math.random() - 0.5) * 200;
                 const nextBaseY = (Math.random() - 0.5) * 200;
 
-                gsap.set(berry, {
-                    rotation: startAngle,
-                    x: currentBaseX,
-                    y: currentBaseY
-                });
-
-                const berryTl = gsap.timeline();
-
-                berryTl.to(berry, {
+                const tl = gsap.timeline();
+                tl.to(fruit, {
                     x: centerX,
                     y: centerY,
                     rotation: startAngle + 45,
                     scale: 0.1,
                     opacity: 0,
                     duration: 0.5,
-                    ease: "power2.in",
+                    ease: 'power2.in',
                     onComplete: () => {
-                        berry.src = flavor === 'blue' ? 'https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/blueberry.glb' : 'https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/cherry.glb';
-                        heroCenter.style.zIndex = 50;
+                        fruit.innerHTML = (PRODUCE[newList[i % newList.length]] || PRODUCE.apple)();
                     }
                 })
-                    .to(berry, {
-                        duration: 0.3
-                    })
-                    .to(berry, {
-                        onStart: () => {
-                            heroCenter.style.zIndex = 1;
-                        },
+                    .to(fruit, { duration: 0.3 })
+                    .to(fruit, {
                         x: nextBaseX,
                         y: nextBaseY,
                         rotation: startAngle + 90,
                         scale: 1,
                         opacity: 1,
                         duration: 0.9,
-                        ease: "back.out(1.5)",
+                        ease: 'back.out(1.5)',
                         onComplete: () => {
-                            berry.dataset.angle = startAngle + 90;
-                            berry.dataset.baseX = nextBaseX;
-                            berry.dataset.baseY = nextBaseY;
-                            berry.dataset.rx = 0;
-                            berry.dataset.ry = 0;
+                            fruit.dataset.angle = startAngle + 90;
+                            fruit.dataset.baseX = nextBaseX;
+                            fruit.dataset.baseY = nextBaseY;
+                            fruit.dataset.rx = 0;
+                            fruit.dataset.ry = 0;
 
-                            completedBerries++;
-                            if (completedBerries === berries.length) {
-                                isSwitching = false;
-                            }
+                            completed++;
+                            if (completed === fruits.length) isSwitching = false;
                         }
                     });
             });
         }
 
-
-        // Track berry states for smoothing
-        allBerries.forEach(b => {
-            b.dataset.rx = 0; b.dataset.ry = 0; b.dataset.angle = Math.random() * 360;
-            b.dataset.baseX = 0; b.dataset.baseY = 0;
-            b.dataset.targetRx = 0; b.dataset.targetRy = 0;
+        /* ============================================================
+           Pointer parallax, repulsion + endless float
+           ============================================================ */
+        allFruits.forEach(f => {
+            f.dataset.rx = 0; f.dataset.ry = 0; f.dataset.angle = Math.random() * 360;
+            f.dataset.baseX = 0; f.dataset.baseY = 0;
         });
 
-        let mouse = { x: 0, y: 0, px: 0, py: 0 };
+        let mouse = { x: 0, y: 0, px: window.innerWidth / 2, py: window.innerHeight / 2 };
         let currentMouse = { x: 0, y: 0 };
 
         window.addEventListener('mousemove', (e) => {
@@ -1043,29 +1532,32 @@
 
         function animate() {
             const time = Date.now() * 0.001;
-            // Target camera position based on mouse
-            // Smoothly interpolate current mouse to target mouse
+
+            /* Smoothly interpolate current mouse to target mouse */
             currentMouse.x += (mouse.x - currentMouse.x) * 0.05;
             currentMouse.y += (mouse.y - currentMouse.y) * 0.05;
 
-            // Tilt the product can + add switch spin
-            modelViewer.cameraOrbit = `${(currentMouse.x * 40) + switchSpin}deg ${90 + (currentMouse.y * 20)}deg 380%`;
+            /* Tilt the bottle toward the cursor + add switch spin */
+            bottleEl.style.transform =
+                'rotateY(' + ((currentMouse.x * 40) + switchSpin) + 'deg) ' +
+                'rotateX(' + (-currentMouse.y * 20) + 'deg) ' +
+                'rotateZ(' + (currentMouse.x * 6) + 'deg)';
 
-            // Update parallax containers - Always
-            berriesFG.style.transform = `translate(${currentMouse.x * 60}px, ${currentMouse.y * 60}px)`;
-            berriesBG.style.transform = `translate(${currentMouse.x * -30}px, ${currentMouse.y * -30}px)`;
-            leavesBG.style.transform = `translate(${currentMouse.x * -15}px, ${currentMouse.y * -15}px)`;
+            /* Parallax containers — always */
+            fruitsFG.style.transform = 'translate(' + (currentMouse.x * 60) + 'px, ' + (currentMouse.y * 60) + 'px)';
+            fruitsBG.style.transform = 'translate(' + (currentMouse.x * -30) + 'px, ' + (currentMouse.y * -30) + 'px)';
+            leavesBG.style.transform = 'translate(' + (currentMouse.x * -15) + 'px, ' + (currentMouse.y * -15) + 'px)';
 
-            // Update each berry with its own smoothing and float - ONLY IF NOT SWITCHING
+            /* Each fruit: pointer repulsion + float — only when not switching */
             if (!isSwitching) {
-                allBerries.forEach((berry, i) => {
-                    const berryRect = berry.getBoundingClientRect();
-                    const berryX = berryRect.left + berryRect.width / 2;
-                    const berryY = berryRect.top + berryRect.height / 2;
+                allFruits.forEach((fruit, i) => {
+                    const r = fruit.getBoundingClientRect();
+                    const fx = r.left + r.width / 2;
+                    const fy = r.top + r.height / 2;
 
-                    const diffX = mouse.px - berryX;
-                    const diffY = mouse.py - berryY;
-                    const distance = Math.sqrt(diffX * diffX + diffY * diffY);
+                    const diffX = mouse.px - fx;
+                    const diffY = mouse.py - fy;
+                    const distance = Math.sqrt(diffX * diffX + diffY * diffY) || 1;
 
                     let targetRx = 0, targetRy = 0, speedMult = 1;
 
@@ -1076,67 +1568,82 @@
                         speedMult = 1 + force * 5;
                     }
 
-                    // Lerp repulsion values
-                    let rx = parseFloat(berry.dataset.rx) || 0;
-                    let ry = parseFloat(berry.dataset.ry) || 0;
-                    let angle = parseFloat(berry.dataset.angle) || 0;
-                    let baseX = parseFloat(berry.dataset.baseX) || 0;
-                    let baseY = parseFloat(berry.dataset.baseY) || 0;
+                    let rx = parseFloat(fruit.dataset.rx) || 0;
+                    let ry = parseFloat(fruit.dataset.ry) || 0;
+                    let angle = parseFloat(fruit.dataset.angle) || 0;
+                    const baseX = parseFloat(fruit.dataset.baseX) || 0;
+                    const baseY = parseFloat(fruit.dataset.baseY) || 0;
 
                     rx += (targetRx - rx) * 0.1;
                     ry += (targetRy - ry) * 0.1;
                     angle += 0.2 * speedMult;
 
-                    berry.dataset.rx = rx;
-                    berry.dataset.ry = ry;
-                    berry.dataset.angle = angle;
+                    fruit.dataset.rx = rx;
+                    fruit.dataset.ry = ry;
+                    fruit.dataset.angle = angle;
 
-                    // Floating effect
                     const dur = [5, 7, 6, 8, 5.5, 6.5, 9, 11, 10][i % 9];
                     const phase = (time + i * 0.7) * (Math.PI * 2 / dur);
                     const floatY = Math.sin(phase) * 15;
                     const floatAngle = Math.cos(phase) * 6;
 
-                    berry.style.transform = `translate(calc(${rx + baseX}px), calc(${ry + baseY}px + ${floatY}px)) rotate(calc(${angle}deg + ${floatAngle}deg))`;
+                    fruit.style.transform =
+                        'translate(' + (rx + baseX) + 'px, ' + (ry + baseY + floatY) + 'px) ' +
+                        'rotate(' + (angle + floatAngle) + 'deg)';
                 });
             }
 
-            // Update leaves with float - ALWAYS
+            /* Leaves float — always */
             document.querySelectorAll('.leaf').forEach((leaf, i) => {
                 const dur = 10 + i * 2;
                 const phase = (time + i * 1.2) * (Math.PI * 2 / dur);
                 const floatY = Math.sin(phase) * 20;
                 const floatX = Math.cos(phase * 0.5) * 15;
                 const floatAngle = Math.sin(phase * 0.3) * 15;
-                leaf.style.transform = `translate(${floatX}px, ${floatY}px) rotate(${floatAngle}deg)`;
+                leaf.style.transform = 'translate(' + floatX + 'px, ' + floatY + 'px) rotate(' + floatAngle + 'deg)';
             });
 
             requestAnimationFrame(animate);
         }
 
-        animate();
-
-        // Bubbles Generator using bubble.png
+        /* ============================================================
+           Bubbles
+           ============================================================ */
         const bubblesContainer = document.getElementById('bubbles-container');
         function createBubble() {
             if (!bubblesContainer) return;
-            const bubble = document.createElement('img');
-            bubble.src = 'https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/bubble.png';
+            const bubble = document.createElement('div');
             bubble.className = 'bubble-img';
-            const size = Math.random() * 20 + 10 + 'px';
-            bubble.style.width = size;
-            bubble.style.height = 'auto';
+            const size = Math.random() * 20 + 10;
+            bubble.style.width = size + 'px';
+            bubble.style.height = size + 'px';
             bubble.style.left = Math.random() * 100 + '%';
             bubble.style.bottom = '-50px';
             bubble.style.opacity = Math.random() * 0.4 + 0.2;
 
             const duration = Math.random() * 6 + 4;
-            bubble.style.animation = `floatUpImg ${duration}s linear forwards`;
+            bubble.style.animation = 'floatUpImg ' + duration + 's linear forwards';
 
             bubblesContainer.appendChild(bubble);
             setTimeout(() => bubble.remove(), duration * 1000);
         }
         setInterval(createBubble, 400);
+        for (let i = 0; i < 8; i++) setTimeout(createBubble, i * 220);
+
+        /* ============================================================
+           Boot
+           ============================================================ */
+        renderBottle(currentFlavor);
+        renderFruits(currentFlavor);
+        renderLeaves(currentFlavor);
+        renderInfo(currentFlavor);
+        buildCards();
+        animate();
+
+        /* Reveal the bottle (fade + endless bob) */
+        requestAnimationFrame(() => {
+            setTimeout(() => document.querySelector('.hero-center').classList.add('ready'), 300);
+        });
     </script>
 </body>
 
