@@ -42,9 +42,9 @@
             --font-main: 'Inter', sans-serif;
             --font-heading: 'Galada', cursive;
 
-            --bg-inner: #147a45;
-            --bg-mid: #063d22;
-            --bg-outer: #01120a;
+            --bg-inner: #b8600f;
+            --bg-mid: #5e3208;
+            --bg-outer: #170c02;
         }
 
         * {
@@ -66,12 +66,12 @@
         }
 
         /* ---------- Flavour themes ---------- */
-        body[data-theme="deepgreens"] { --bg-inner: #147a45; --bg-mid: #063d22; --bg-outer: #01120a; }
-        body[data-theme="almond"]     { --bg-inner: #8a6a45; --bg-mid: #46331f; --bg-outer: #140d07; }
-        body[data-theme="carrot"]     { --bg-inner: #b8600f; --bg-mid: #5e3208; --bg-outer: #170c02; }
-        body[data-theme="greencrush"] { --bg-inner: #59a81f; --bg-mid: #27530e; --bg-outer: #0a1704; }
-        body[data-theme="beet"]       { --bg-inner: #92103a; --bg-mid: #4b0620; --bg-outer: #15020a; }
-        body[data-theme="golden"]     { --bg-inner: #b08a0c; --bg-mid: #584406; --bg-outer: #171102; }
+        body[data-theme="orange"]     { --bg-inner: #b8600f; --bg-mid: #5e3208; --bg-outer: #170c02; }
+        body[data-theme="pineapple"]  { --bg-inner: #b08a0c; --bg-mid: #584406; --bg-outer: #171102; }
+        body[data-theme="fatbuster"]  { --bg-inner: #b84a1a; --bg-mid: #5e2610; --bg-outer: #170a03; }
+        body[data-theme="rxgreen"]    { --bg-inner: #147a45; --bg-mid: #063d22; --bg-outer: #01120a; }
+        body[data-theme="melon"]      { --bg-inner: #b81e46; --bg-mid: #5e0f24; --bg-outer: #17030a; }
+        body[data-theme="pompine"]    { --bg-inner: #8a0f35; --bg-mid: #4b0620; --bg-outer: #15020a; }
 
         /* ---------- Bubbles ---------- */
         #bubbles-container {
@@ -620,7 +620,7 @@
     </style>
 </head>
 
-<body data-theme="deepgreens">
+<body data-theme="orange">
 
     <div id="bubbles-container"></div>
 
@@ -659,8 +659,8 @@
                     <span class="outline">Pure</span><br>
                     Raw
                 </h1>
-                <div class="flavor-name" id="flavor-name">Deep Greens</div>
-                <p class="description" id="flavor-ingredients">Kale · Spinach · Cucumber · Celery · Lemon</p>
+                <div class="flavor-name" id="flavor-name">Orange Juice</div>
+                <p class="description" id="flavor-ingredients">100% cold-pressed oranges. Nothing else.</p>
                 <div class="benefits" id="benefits"></div>
                 <div class="cta-group">
                     <button class="primary-btn">
@@ -851,81 +851,81 @@
            to the bottle colours in the product shot.
            ============================================================ */
         const FLAVORS = {
-            deepgreens: {
-                key: 'deepgreens',
-                name: 'Deep Greens',
-                short: 'Deep Greens',
-                ingredients: 'Kale · Spinach · Cucumber · Celery · Lemon',
+            orange: {
+                key: 'orange',
+                name: 'Orange Juice',
+                short: 'Orange',
+                ingredients: '100% cold-pressed oranges. Nothing else.',
                 price: '$9.95',
                 size: '16 FL OZ',
                 photo: '',
-                benefits: ['Detox', 'Alkalize', 'Iron Rich', 'Nutrient Dense'],
-                juice: ['#5c9b3c', '#2f6b25', '#163a12'],
-                fruits: ['kale', 'cucumber', 'celery', 'lemon', 'spinach', 'kale', 'cucumber', 'celery', 'spinach']
+                benefits: ['Vitamin C', 'Immunity', 'Hydration', 'Energy'],
+                juice: ['#ffc14d', '#f5860f', '#a54a04'],
+                fruits: ['orange', 'orange', 'lemon', 'orange', 'orange', 'lemon', 'orange', 'orange', 'lemon']
             },
-            almond: {
-                key: 'almond',
-                name: 'Almond Mylk',
-                short: 'Almond Mylk',
-                ingredients: 'Almonds · Dates · Vanilla · Cinnamon · Sea Salt',
+            pineapple: {
+                key: 'pineapple',
+                name: 'Pineapple Juice',
+                short: 'Pineapple',
+                ingredients: '100% cold-pressed pineapple. Nothing else.',
                 price: '$9.95',
                 size: '16 FL OZ',
                 photo: '',
-                benefits: ['Protein', 'Calcium', 'Dairy Free', 'Slow Energy'],
-                juice: ['#f2e3cd', '#dcc3a0', '#a98a63'],
-                fruits: ['almond', 'date', 'cinnamon', 'almond', 'date', 'almond', 'cinnamon', 'almond', 'date']
+                benefits: ['Digestion', 'Bromelain', 'Anti-Inflammatory', 'Vitamin C'],
+                juice: ['#ffe680', '#f2c518', '#a8820a'],
+                fruits: ['pineapple', 'pineapple', 'lemon', 'pineapple', 'pineapple', 'mint', 'pineapple', 'lemon', 'pineapple']
             },
-            carrot: {
-                key: 'carrot',
-                name: 'Carrot Glow',
-                short: 'Carrot Glow',
-                ingredients: 'Carrot · Orange · Turmeric · Ginger · Lemon',
+            fatbuster: {
+                key: 'fatbuster',
+                name: 'Fat Buster',
+                short: 'Fat Buster',
+                ingredients: 'Grapefruit · Orange · Lemon · Ginger Root',
                 price: '$9.95',
                 size: '16 FL OZ',
                 photo: '',
-                benefits: ['Immunity', 'Skin', 'Anti-Inflammatory', 'Vitamin A'],
-                juice: ['#ffb43c', '#ef7d10', '#a44a05'],
-                fruits: ['carrot', 'orange', 'turmeric', 'ginger', 'carrot', 'lemon', 'orange', 'carrot', 'ginger']
+                benefits: ['Metabolism', 'Detox', 'Vitamin C', 'Digestion'],
+                juice: ['#ffb08a', '#f2673a', '#a8341a'],
+                fruits: ['grapefruit', 'orange', 'lemon', 'ginger', 'grapefruit', 'orange', 'ginger', 'grapefruit', 'lemon']
             },
-            greencrush: {
-                key: 'greencrush',
-                name: 'Green Crush',
-                short: 'Green Crush',
-                ingredients: 'Apple · Cucumber · Kale · Mint · Lime',
+            rxgreen: {
+                key: 'rxgreen',
+                name: 'Rx Green',
+                short: 'Rx Green',
+                ingredients: 'Cucumber · Green Apple · Kale · Celery · Romaine · Parsley · Lemon · Ginger Root',
                 price: '$9.95',
                 size: '16 FL OZ',
                 photo: '',
-                benefits: ['Hydration', 'Digestion', 'Refresh', 'Greens'],
-                juice: ['#b7dd5c', '#6ba82a', '#33610f'],
-                fruits: ['apple', 'cucumber', 'mint', 'lime', 'kale', 'apple', 'mint', 'cucumber', 'lime']
+                benefits: ['Detox', 'Alkalize', 'Greens', 'Nutrient Dense'],
+                juice: ['#7fb54a', '#3b7a27', '#173d10'],
+                fruits: ['kale', 'cucumber', 'apple', 'celery', 'romaine', 'parsley', 'lemon', 'ginger', 'cucumber']
             },
-            beet: {
-                key: 'beet',
-                name: 'Beet Me Up',
-                short: 'Beet Me Up',
-                ingredients: 'Beet · Apple · Carrot · Lemon · Ginger',
+            melon: {
+                key: 'melon',
+                name: 'Melon Bliss',
+                short: 'Melon Bliss',
+                ingredients: 'Watermelon · Lime — summer seasonal',
                 price: '$9.95',
                 size: '16 FL OZ',
                 photo: '',
-                benefits: ['Stamina', 'Circulation', 'Endurance', 'Nitric Oxide'],
-                juice: ['#c2265c', '#8a0f35', '#450317'],
-                fruits: ['beet', 'apple', 'carrot', 'ginger', 'beet', 'lemon', 'beet', 'carrot', 'apple']
+                benefits: ['Hydration', 'Electrolytes', 'Post-Workout', 'Refresh'],
+                juice: ['#ff9aa8', '#ef4761', '#9e1029'],
+                fruits: ['watermelon', 'lime', 'mint', 'watermelon', 'lime', 'watermelon', 'mint', 'watermelon', 'lime']
             },
-            golden: {
-                key: 'golden',
-                name: 'Golden Hour',
-                short: 'Golden Hour',
-                ingredients: 'Pineapple · Lemon · Ginger · Turmeric · Cayenne',
+            pompine: {
+                key: 'pompine',
+                name: 'Pom Pine',
+                short: 'Pom Pine',
+                ingredients: 'Pomegranate · Pineapple · Lemon',
                 price: '$9.95',
                 size: '16 FL OZ',
                 photo: '',
-                benefits: ['Immunity', 'Metabolism', 'Anti-Inflammatory', 'Vitamin C'],
-                juice: ['#ffe680', '#f0c22c', '#a87c09'],
-                fruits: ['pineapple', 'lemon', 'turmeric', 'ginger', 'pineapple', 'lemon', 'ginger', 'pineapple', 'turmeric']
+                benefits: ['Antioxidants', 'Recovery', 'Heart', 'Vitamin C'],
+                juice: ['#d43a4e', '#8f0f2a', '#3d0410'],
+                fruits: ['pomegranate', 'pineapple', 'lemon', 'pomegranate', 'pineapple', 'pomegranate', 'lemon', 'pineapple', 'pomegranate']
             }
         };
-        const ORDER = ['deepgreens', 'almond', 'carrot', 'greencrush', 'beet', 'golden'];
-        let currentFlavor = 'deepgreens';
+        const ORDER = ['orange', 'pineapple', 'fatbuster', 'rxgreen', 'melon', 'pompine'];
+        let currentFlavor = 'orange';
 
         /* ============================================================
            Produce — all artwork is generated inline, no external assets
@@ -1038,6 +1038,36 @@
                 '<g stroke="#6d3616" stroke-width="2" opacity="0.6"><path d="M40 62 54 66M46 44 60 48"/></g>')
         };
 
+        PRODUCE.grapefruit = () => citrus('#e0812c', '#ff8f7d', '#ffe6da', 9);
+        PRODUCE.romaine = () => leafShape('#7fb54a', '#3f7a1f', '#d3ee9c');
+        PRODUCE.parsley = () => wrap(
+            '<g fill="#2f7d3a">' +
+            '<path d="M50 96V58" stroke="#3f8f3c" stroke-width="4" stroke-linecap="round"/>' +
+            '<circle cx="50" cy="34" r="16"/><circle cx="28" cy="46" r="14"/><circle cx="72" cy="46" r="14"/>' +
+            '<circle cx="38" cy="22" r="12"/><circle cx="63" cy="22" r="12"/></g>' +
+            '<g fill="#57bf6a" opacity="0.65">' +
+            '<circle cx="45" cy="30" r="7"/><circle cx="26" cy="43" r="6"/><circle cx="68" cy="42" r="6"/></g>');
+        PRODUCE.watermelon = () => {
+            let seeds = '';
+            [[50, 30], [34, 44], [66, 44], [42, 60], [58, 60], [50, 50]].forEach(pt => {
+                seeds += '<ellipse cx="' + pt[0] + '" cy="' + pt[1] + '" rx="3.2" ry="5" fill="#1e1208" transform="rotate(' + (pt[0] - 50) * 2 + ' ' + pt[0] + ' ' + pt[1] + ')"/>';
+            });
+            return wrap(
+                '<circle cx="50" cy="50" r="46" fill="#2f7d3a"/>' +
+                '<circle cx="50" cy="50" r="41" fill="#8cc63f"/>' +
+                '<circle cx="50" cy="50" r="37" fill="#f6f7e8"/>' +
+                '<circle cx="50" cy="50" r="33" fill="#f0455f"/>' + seeds +
+                '<ellipse cx="35" cy="33" rx="12" ry="6" fill="#ffffff" opacity="0.25" transform="rotate(-35 35 33)"/>');
+        };
+        PRODUCE.pomegranate = () => wrap(
+            '<circle cx="50" cy="56" r="38" fill="#a3122f"/>' +
+            '<path d="M50 18c-14 6-22 20-22 38 0 12 6 22 14 28-4-14-4-40 8-66z" fill="#c9324c" opacity="0.55"/>' +
+            '<path d="M50 18c-4-4-6-9-5-14 5 1 8 4 9 8 2-4 6-6 11-6 0 6-3 10-8 12 5 1 8 4 9 9-6 1-11-1-16-9z" fill="#7d0b20"/>' +
+            '<g fill="#ff5a70" opacity="0.85">' +
+            '<circle cx="42" cy="58" r="5"/><circle cx="56" cy="52" r="4.4"/><circle cx="60" cy="66" r="4.6"/>' +
+            '<circle cx="46" cy="72" r="4.2"/><circle cx="34" cy="46" r="3.8"/></g>' +
+            '<ellipse cx="34" cy="40" rx="8" ry="5" fill="#ffffff" opacity="0.18" transform="rotate(-35 34 40)"/>');
+
         /* ---------- Brand mark ---------- */
         function logoMark(color) {
             const c = color || '#ffffff';
@@ -1141,7 +1171,7 @@
         }
 
         function renderLeaves(key) {
-            const greens = key === 'deepgreens' || key === 'greencrush';
+            const greens = key === 'rxgreen';
             document.querySelectorAll('.leaf').forEach((el, i) => {
                 el.innerHTML = (i % 2 === 0 ? PRODUCE.spinach : PRODUCE.mint)();
                 el.style.opacity = greens ? 0.65 : 0.4;
