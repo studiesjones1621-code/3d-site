@@ -1,0 +1,9 @@
+# Dependencies and build output (from the Next.js project on main —
+# they live in the shared working directory, never in this branch)
+node_modules/
+.next/
+next-env.d.ts
+
+# Local environment
+.env
+.env.local
