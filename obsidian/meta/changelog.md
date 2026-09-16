@@ -1,6 +1,6 @@
 ---
 tags: [meta, changelog]
-updated: 2026-09-08
+updated: 2026-09-16
 ---
 
 # Changelog
@@ -36,6 +36,34 @@ The home view (`src/views/home.tsx`, route `/`) ships empty on purpose — start
 there ([[new-page]]).
 
 <!-- Log this project's changes below, newest first, under a `## YYYY-MM-DD` heading. -->
+
+## 2026-09-16
+
+**Project bootstrapped as `iconic-juice` — a landing site for Iconic Juice, a
+Baltimore cold-pressed juice brand.** Scaffolded from `next16-claude-starter`
+with the starter's git history removed and a fresh repo initialised; package
+renamed `next16-claude-starter` → `iconic-juice`; `.env` created from
+`.env.example` (values still the defaults — `NEXT_PUBLIC_SITE_URL` is
+`https://example.com` until a domain exists). No dependency, code or
+architecture changes beyond the rename, so the [[changelog#Baseline — built from
+`next16-claude-starter` v0.1.0|baseline]] above still describes the app exactly.
+
+The repo previously held a standalone single-file HTML hero for the same brand
+(GSAP + hand-rolled `requestAnimationFrame`, inline-SVG bottle and produce, four
+switchable flavors). That file was removed from the root here; it remains on
+branch `claude/nice-mendel-9d2irz` and in history as the design reference for
+the port. **Porting it means rewriting its motion layer** — hard rule #1 rules
+out its CSS keyframes and rAF loops, so the cursor tilt, parallax, pointer
+repulsion and flavor-switch choreography get rebuilt on [[animation-system]]
+springs, and its headline goes through [[text-engine]]. Nothing of it has landed
+yet: `src/views/home.tsx` is still the empty starter view.
+
+Verified on this environment (Node 22.22.2, not the `.nvmrc` 24.16.0 — `engines`
+allows ≥ 20.19 and nothing complained): `yarn install`, `verify.sh` 0 FAIL /
+3 WARN (all three inherited from the starter — hex literal in `src/lib/site.ts`,
+arbitrary px in the Cookie components, `console.log` in the contact route),
+`yarn lint` clean, `yarn build` green, `yarn dev` serving `/` 200.
+
 
 ## 2026-09-08
 
