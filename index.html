@@ -1315,12 +1315,14 @@
             /* 1. Background morphs */
             document.body.dataset.theme = flavor;
 
-            /* 2. Jar spins 720deg with motion blur, swapping at the peak */
+            /* 2. The jar turns away edge-on, swaps there, and turns back in.
+                  A photograph mirrors if it passes 90deg, so the swap happens
+                  at the edge and the rotation continues the same direction. */
             const spinObj = { val: 0, blur: 0 };
             gsap.to(spinObj, {
-                val: 360,
-                blur: 15,
-                duration: 0.6,
+                val: 90,
+                blur: 16,
+                duration: 0.5,
                 ease: 'power2.in',
                 onUpdate: () => {
                     switchSpin = spinObj.val;
@@ -1330,11 +1332,12 @@
                     renderBottle(flavor);
                     renderLeaves(flavor);
 
+                    spinObj.val = -90;          /* keep turning the same way */
                     gsap.to(spinObj, {
-                        val: 720,
+                        val: 0,
                         blur: 0,
-                        duration: 1.5,
-                        ease: 'back.out(0.7)',
+                        duration: 1.3,
+                        ease: 'back.out(0.9)',
                         onUpdate: () => {
                             switchSpin = spinObj.val;
                             stage.style.filter = 'blur(' + spinObj.blur + 'px)';
@@ -1445,10 +1448,11 @@
             currentMouse.x += (mouse.x - currentMouse.x) * 0.05;
             currentMouse.y += (mouse.y - currentMouse.y) * 0.05;
 
+            const idleTurn = Math.sin(time * 0.5) * 15;      /* slow turntable rock */
             bottleEl.style.transform =
-                'rotateY(' + ((currentMouse.x * 40) + switchSpin) + 'deg) ' +
+                'rotateY(' + ((currentMouse.x * 40) + idleTurn + switchSpin) + 'deg) ' +
                 'rotateX(' + (-currentMouse.y * 20) + 'deg) ' +
-                'rotateZ(' + (currentMouse.x * 5) + 'deg)';
+                'rotateZ(' + (currentMouse.x * 5 + Math.sin(time * 0.33) * 1.5) + 'deg)';
 
             fruitsFG.style.transform = 'translate(' + (currentMouse.x * 60) + 'px, ' + (currentMouse.y * 60) + 'px)';
             fruitsBG.style.transform = 'translate(' + (currentMouse.x * -30) + 'px, ' + (currentMouse.y * -30) + 'px)';
