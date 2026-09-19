@@ -1,0 +1,1420 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lumora — Independent Design &amp; Engineering Studio</title>
+    <meta name="description"
+        content="Lumora is an independent studio crafting brands, products, and the systems that connect them — bold ideas, shipped with quiet precision." />
+    <meta name="theme-color" content="#0a0a0a" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ============================ tokens ============================ */
+        :root {
+            --background: #ffffff;
+            --foreground: #111111;
+            --ink: #0a0a0a;
+            --muted: #8d8d8d;
+            --subtle: #b6b6b6;
+            --line: #e6e5e2;
+            --surface: #f1f0ee;
+            --surface-2: #e3e2df;
+            --accent: #b15f2c;
+            --accent-from: #cf8047;
+            --accent-to: #97501f;
+            --hero-from: #ecebe9;
+            --hero-to: #c9c9c9;
+            --radius-pill: 9999px;
+            --radius-card: 2rem;
+            --radius-card-sm: 1.25rem;
+            --radius-control: 0.875rem;
+            --text-watermark: 13rem;
+            --container-shell: 88rem;
+        }
+
+        /* ============================ reset ============================= */
+        * { box-sizing: border-box; margin: 0; padding: 0 }
+
+        html { font-size: 16px; -webkit-font-smoothing: antialiased }
+
+        body {
+            background: var(--background);
+            color: var(--foreground);
+            font-family: 'Onest', sans-serif;
+            overflow-x: hidden;
+        }
+
+        a { color: inherit; text-decoration: none }
+        button { font: inherit; color: inherit; background: none; border: none; cursor: pointer }
+        ul { list-style: none }
+        img { display: block }
+        [hidden] { display: none !important }
+
+        .sr-only {
+            position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+            overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+        }
+
+        :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px }
+
+        @media (prefers-reduced-motion: reduce) {
+            * { animation: none !important; transition: none !important }
+        }
+
+        /* ===================== adaptive rem grid ======================== */
+        @media (max-width: 1920px) { html { font-size: 0.833333vw } }
+        @media (max-width: 1440px) { html { font-size: 1.111111vw } }
+        @media (max-width: 1024px) { html { font-size: 1.5625vw } }
+        @media (max-width: 640px)  { html { font-size: 4.444444vw } }
+
+        /* ============================ shell ============================= */
+        .shell { width: 100%; max-width: var(--container-shell); margin-inline: auto }
+
+        .skip-link {
+            position: absolute; left: -9999px; top: 0; z-index: 60;
+        }
+
+        .skip-link:focus {
+            position: fixed; left: 1rem; top: 1rem;
+            border-radius: 0.875rem; background: var(--ink);
+            padding: 0.5rem 1rem; font-size: 0.875rem; color: #fff;
+        }
+
+        /* ========================= icons / svg ========================== */
+        .ico { width: 1em; height: 1em; display: inline-block; vertical-align: middle; flex: none }
+
+        /* ========================== reveals ============================= */
+        .rv { opacity: 0; transition-property: opacity, transform; transition-duration: 800ms;
+              transition-timing-function: cubic-bezier(.16, 1, .3, 1); will-change: opacity, transform }
+        .rv[data-y] { transform: translateY(var(--ry, 14px)) }
+        .rv[data-scale] { transform: translateY(var(--ry, 14px)) scale(var(--rs, .96)) }
+        .rv.is-in { opacity: var(--ro, 1); transform: none }
+
+        .lines .line { display: block; overflow: hidden }
+        .lines .line > span {
+            display: block; transform: translateY(100%); opacity: 0;
+            transition: transform 900ms cubic-bezier(.215, .61, .355, 1), opacity 900ms cubic-bezier(.215, .61, .355, 1);
+        }
+        .lines.is-in .line > span { transform: translateY(0); opacity: 1 }
+
+        .words .w {
+            display: inline-block; transform: translateY(24px); opacity: 0;
+            transition: transform 700ms cubic-bezier(.165, .84, .44, 1), opacity 700ms cubic-bezier(.165, .84, .44, 1);
+        }
+        .words.is-in .w { transform: none; opacity: 1 }
+
+        /* ======================= shared components ====================== */
+        .eyebrow { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.875rem; font-weight: 500;
+                   color: rgba(17, 17, 17, .7) }
+        .eyebrow::before { content: ""; width: 0.375rem; height: 0.375rem; border-radius: var(--radius-pill);
+                           background: rgba(17, 17, 17, .5) }
+        .eyebrow.light { color: rgba(255, 255, 255, .7) }
+        .eyebrow.light::before { background: rgba(255, 255, 255, .6) }
+        .eyebrow.boxed { border: 1px solid var(--line); border-radius: var(--radius-pill); padding: 0.375rem 1rem }
+
+        .pill { display: inline-block }
+        .pill > .pill-in {
+            display: inline-flex; align-items: center; gap: 0.75rem; border-radius: var(--radius-pill);
+            font-size: 0.875rem; font-weight: 500; padding: 0.875rem 1.75rem;
+            transition: transform 350ms cubic-bezier(.2, .8, .2, 1);
+        }
+        .pill.has-arrow > .pill-in { padding: 0.375rem 0.375rem 0.375rem 1.5rem }
+        .pill.dark > .pill-in { background: var(--ink); color: #fff }
+        .pill.light > .pill-in { background: var(--surface); color: var(--foreground) }
+        .pill.outline > .pill-in { border: 1px solid var(--line); background: transparent; color: var(--foreground) }
+        .pill .badge {
+            width: 2.25rem; height: 2.25rem; display: grid; place-items: center;
+            border-radius: var(--radius-pill); font-size: 1rem; background: var(--ink); color: #fff;
+        }
+        .pill.dark .badge { background: #fff; color: var(--ink) }
+        .pill .badge .ico { transition: transform 350ms cubic-bezier(.2, .8, .2, 1) }
+
+        @media (hover: hover) {
+            .pill:hover > .pill-in { transform: scale(1.04) }
+            .pill.arrow-right:hover .badge .ico { transform: translate(3px, 0) }
+            .pill.arrow-up:hover .badge .ico { transform: translate(2px, -2px) }
+        }
+
+        .tag { display: inline-flex; border: 1px solid rgba(255, 255, 255, .25); color: #fff;
+               border-radius: var(--radius-pill); padding: 0.5rem 1rem; font-size: 0.875rem }
+
+        .alink { display: inline-flex }
+        .alink > span { display: inline-flex; opacity: .65;
+                        transition: transform 350ms cubic-bezier(.2, .8, .2, 1), opacity 350ms cubic-bezier(.2, .8, .2, 1) }
+        @media (hover: hover) {
+            .alink:hover > span { transform: translateX(4px); opacity: 1 }
+            .alink.legal:hover > span { transform: translateX(3px); opacity: 1 }
+        }
+        .alink.legal > span { opacity: .7 }
+    </style>
+    <style>
+        /* =========================== loader ============================= */
+        #loader {
+            position: fixed; inset: 0; z-index: 120; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; gap: 2rem;
+            background: var(--ink); color: #fff; border-radius: 0 0 var(--radius-card) var(--radius-card);
+            transform: translateY(0);
+            transition: transform 700ms cubic-bezier(.22, 1, .36, 1);
+        }
+        #loader.out { transform: translateY(-100%) }
+        .loader-center { display: flex; flex-direction: column; align-items: center; gap: 1.25rem; text-align: center;
+                         transition: opacity 600ms ease, transform 600ms ease }
+        #loader.out .loader-center { opacity: 0; transform: translateY(-12px) }
+        .loader-brand { display: flex; align-items: center; gap: 0.5rem; font-weight: 600; font-size: 1.5rem }
+        .loader-brand .ico { font-size: 1.875rem; color: var(--accent-from) }
+        .loader-tag { max-width: 24ch; font-size: 0.875rem; color: rgba(255, 255, 255, .55) }
+        .loader-progress { width: min(22rem, 72vw); display: flex; flex-direction: column; gap: 0.75rem }
+        .loader-track { height: 1px; background: rgba(255, 255, 255, .15) }
+        .loader-fill { height: 100%; width: 0%; background: var(--accent-from); transition: width .1s ease-out }
+        .loader-meta { display: flex; justify-content: space-between; font-size: 0.75rem; font-weight: 500;
+                       text-transform: uppercase; letter-spacing: .05em; color: rgba(255, 255, 255, .45) }
+        .loader-count { font-variant-numeric: tabular-nums; color: rgba(255, 255, 255, .8) }
+        @media (min-width: 640px) { .loader-brand { font-size: 1.875rem } }
+
+        /* =========================== header ============================= */
+        .header { position: absolute; inset-inline: 0; top: 0; z-index: 50;
+                  opacity: 0; transform: translateY(-14px);
+                  transition: opacity 700ms cubic-bezier(.22, 1, .36, 1), transform 700ms cubic-bezier(.22, 1, .36, 1) }
+        .header.is-in { opacity: 1; transform: none }
+        .header-in { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; padding: 1.25rem }
+        .brand { display: flex; align-items: center; gap: 0.5rem; font-size: 1.125rem; font-weight: 600;
+                 letter-spacing: -.01em; transition: transform 350ms cubic-bezier(.2, .8, .2, 1) }
+        .brand .ico { font-size: 1.25rem; color: var(--accent) }
+        @media (hover: hover) { .brand-btn:hover .brand { transform: scale(1.04) } }
+
+        .nav-primary { display: none }
+        .nav-primary ul { display: flex; gap: 2rem; font-size: 0.875rem; font-weight: 500 }
+        .nav-primary button span.lbl { display: inline-flex; align-items: center; gap: 0.25rem; opacity: .8;
+            transition: transform 350ms cubic-bezier(.2, .8, .2, 1), opacity 350ms cubic-bezier(.2, .8, .2, 1) }
+        @media (hover: hover) { .nav-primary button:hover span.lbl { transform: translateY(-2px); opacity: 1 } }
+        .caret { font-size: 0.75rem; opacity: .6 }
+
+        .header-right { display: flex; align-items: center; gap: 0.75rem }
+        .clock {
+            display: none; align-items: center; gap: 0.75rem;
+            border: 1px solid rgba(230, 229, 226, .8); background: rgba(255, 255, 255, .4);
+            backdrop-filter: blur(4px); border-radius: var(--radius-control); padding: 0.5rem 0.75rem;
+            font-size: 0.75rem; color: rgba(17, 17, 17, .7);
+        }
+        .clock .lab { color: rgba(17, 17, 17, .45) }
+        .clock .time { min-width: 3.5rem; font-variant-numeric: tabular-nums; font-weight: 500; color: var(--foreground) }
+        .clock .sep { color: rgba(17, 17, 17, .3) }
+        .clock .date { font-weight: 500 }
+        .menu-btn {
+            border: 1px solid rgba(230, 229, 226, .8); background: rgba(255, 255, 255, .4);
+            backdrop-filter: blur(4px); border-radius: var(--radius-control);
+            transition: background .3s ease;
+        }
+        .menu-btn:hover { background: rgba(255, 255, 255, .7) }
+        .menu-btn > span {
+            display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; font-size: 0.75rem;
+            font-weight: 500; text-transform: uppercase; letter-spacing: .05em;
+            transition: transform 350ms cubic-bezier(.2, .8, .2, 1);
+        }
+        .menu-btn .ico { font-size: 0.875rem }
+        @media (hover: hover) { .menu-btn:hover > span { transform: scale(1.05) } }
+        .menu-btn .word { display: none }
+        @media (min-width: 640px) { .menu-btn .word { display: inline } }
+        @media (min-width: 768px) { .clock { display: flex } }
+        @media (min-width: 1024px) { .nav-primary { display: flex } }
+        @media (min-width: 640px) { .header-in { padding: 1.5rem 2rem } }
+
+        /* ============================ hero ============================== */
+        #home { position: relative; isolation: isolate; overflow: hidden;
+                border-radius: 0 0 var(--radius-card) var(--radius-card); background: var(--hero-to) }
+        .hero-media { position: absolute; inset: 0; z-index: 0;
+                      background: linear-gradient(160deg, var(--hero-from), var(--hero-to)) }
+        .hero-media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover }
+        .hero-media canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none }
+        .hero-vignette { position: absolute; inset: 0; z-index: 1; pointer-events: none;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, .35), transparent, rgba(255, 255, 255, .35)) }
+        .hero-watermark {
+            pointer-events: none; position: absolute; inset-inline: 0; bottom: 7rem; z-index: 1; text-align: center;
+            user-select: none; font-weight: 700; line-height: 1; font-size: var(--text-watermark);
+            color: rgba(255, 255, 255, .4);
+        }
+        .hero-grid { position: relative; z-index: 20; display: flex; flex-direction: column; gap: 2rem;
+                     padding: 7rem 1.25rem 5rem }
+        .hero-left { display: flex; flex-direction: column; gap: 1.75rem }
+        .hero-h1 { max-width: 18ch; font-size: 2.25rem; font-weight: 600; line-height: .98; letter-spacing: -.02em }
+        .rating { display: flex; align-items: center; gap: 0.75rem }
+        .rating .stars { color: var(--accent); font-size: 1rem; display: inline-flex; gap: .1rem }
+        .rating .txt { font-size: 0.875rem; font-weight: 500; color: rgba(17, 17, 17, .7) }
+        .hero-ctas { display: flex; flex-wrap: wrap; gap: 0.75rem }
+        .hero-right { display: flex; flex-direction: column; align-items: flex-start; gap: 2rem }
+
+        .hero-card {
+            width: 100%; max-width: 24rem; border-radius: var(--radius-card-sm); background: rgba(255, 255, 255, .7);
+            padding: 0.5rem; box-shadow: 0 1px 2px rgba(0, 0, 0, .05), 0 0 0 1px rgba(230, 229, 226, .7);
+            backdrop-filter: blur(12px);
+        }
+        .hero-card-row { display: flex; gap: 0.5rem; cursor: pointer; border-radius: var(--radius-control) }
+        .hero-card-tile { aspect-ratio: 1; width: 6rem; display: grid; place-items: center;
+                          border-radius: var(--radius-control); background: var(--ink); font-size: 1.875rem; color: #fff }
+        .hero-card-tile .ico { color: var(--accent-from) }
+        .hero-card-panel { flex: 1; border-radius: var(--radius-control); background: rgba(241, 240, 238, .7);
+                           padding: 0.75rem; display: flex; flex-direction: column; justify-content: space-between }
+        .hero-card-slot { position: relative; min-height: 3.25rem }
+        .hero-card-item { position: absolute; inset: 0; transition: transform 400ms cubic-bezier(.2, .8, .2, 1), opacity 400ms }
+        .hero-card-item.out-up { transform: translateY(-14px); opacity: 0 }
+        .hero-card-item.out-down { transform: translateY(14px); opacity: 0 }
+        .hero-card-cap { font-size: 0.65rem; font-weight: 500; text-transform: uppercase; letter-spacing: .05em;
+                         color: rgba(17, 17, 17, .45) }
+        .hero-card-title { max-width: 8rem; font-size: 0.875rem; font-weight: 500; line-height: 1.35 }
+        .hero-card-bottom { display: flex; align-items: center; justify-content: space-between; margin-top: .5rem }
+        .dots { display: flex; align-items: center; gap: 0.25rem }
+        .dots i { display: block; height: 0.25rem; width: 0.375rem; border-radius: var(--radius-pill);
+                  background: rgba(17, 17, 17, .2); transition: all .3s }
+        .dots i.on { width: 1rem; background: rgba(17, 17, 17, .7) }
+        .card-navs { display: flex; gap: 0.375rem }
+        .card-nav { width: 1.75rem; height: 1.75rem; display: grid; place-items: center; border-radius: var(--radius-pill);
+                    background: #fff; color: rgba(17, 17, 17, .7); box-shadow: 0 0 0 1px var(--line); font-size: .75rem }
+        .card-nav:hover { color: var(--foreground) }
+        .card-nav.prev .ico { transform: rotate(180deg) }
+
+        .partners { width: 100%; max-width: 24rem }
+        .partners-label { margin-bottom: 0.75rem; font-size: 0.75rem; font-weight: 500; color: rgba(17, 17, 17, .45);
+                          text-align: left }
+        .partners-grid { display: grid; grid-template-columns: repeat(4, 1fr); column-gap: 1rem; row-gap: 0.75rem }
+        .partner { display: flex; align-items: center; gap: 0.375rem; font-size: 0.75rem; color: rgba(17, 17, 17, .7);
+                   opacity: .7; transition: transform 350ms cubic-bezier(.2, .8, .2, 1), opacity 350ms }
+        .partner .ico { font-size: 0.875rem; color: rgba(17, 17, 17, .4) }
+        @media (hover: hover) { .partner:hover { transform: translateY(-2px); opacity: 1 } }
+
+        .hero-status { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem;
+            border-top: 1px solid rgba(17, 17, 17, .1); padding: 1.25rem; font-size: 0.75rem; font-weight: 500;
+            text-transform: uppercase; letter-spacing: .025em; color: rgba(17, 17, 17, .6); position: relative; z-index: 20 }
+        .hero-status .mid { display: none }
+        .hero-status .end { display: inline-flex; gap: 0.5rem }
+
+        @media (min-width: 640px) {
+            .hero-grid { padding-inline: 2rem }
+            .hero-status { padding-inline: 2rem }
+            .hero-status .mid { display: inline }
+            .hero-h1 { font-size: 3rem }
+        }
+        @media (min-width: 768px) { .hero-h1 { font-size: 3.75rem } }
+        @media (min-width: 1024px) {
+            .hero-grid { display: grid; min-height: 100lvh; grid-template-columns: repeat(12, 1fr); gap: 2.5rem;
+                         padding: 9rem 2rem 7rem }
+            .hero-left { grid-column: span 7 }
+            .hero-right { grid-column: span 5; align-items: flex-end }
+            .hero-card, .partners { max-width: none; width: 19rem }
+            .partners-label { text-align: right }
+        }
+    </style>
+    <style>
+        /* =========================== about ============================== */
+        #about { background: #fff }
+        .about-grid { display: grid; grid-template-columns: 1fr; align-items: center; gap: 3rem; padding: 5rem 1.25rem }
+        .globe-block { position: relative; min-height: 14rem }
+        .globe-bg { position: absolute; left: -1rem; top: 50%; transform: translateY(-50%); font-size: 12rem;
+                    color: rgba(17, 17, 17, .1) }
+        .globe-eyebrow { position: relative }
+        .globe-note { display: flex; align-items: center; gap: 0.75rem; font-size: 0.875rem; color: rgba(17, 17, 17, .7);
+                      position: relative; margin-top: 8rem }
+        .globe-note .ico { font-size: 1.5rem; color: var(--foreground) }
+        .globe-note span.t { max-width: 14rem }
+        .about-right { display: flex; flex-direction: column; gap: 2.5rem }
+        .about-h2 { font-size: 1.5rem; font-weight: 500; line-height: 1.35; letter-spacing: -.01em }
+        .about-h2 .dim { color: var(--muted) }
+        .about-foot { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 1.5rem;
+                      border-top: 1px solid var(--line); padding-top: 1.5rem }
+        .about-foot .lab { font-size: 0.875rem; color: rgba(17, 17, 17, .45) }
+        .socials { display: flex; gap: 0.5rem; margin-top: 0.75rem }
+        .social { width: 2.25rem; height: 2.25rem; display: grid; place-items: center; border-radius: var(--radius-pill);
+                  font-size: 0.875rem; background: var(--surface); color: rgba(17, 17, 17, .7) }
+        .social.accent { background: var(--accent); color: #fff }
+        .social .ico { transition: transform 350ms cubic-bezier(.2, .8, .2, 1) }
+        @media (hover: hover) { .social:hover .ico { transform: scale(1.18) } }
+        @media (min-width: 640px) {
+            .about-grid { padding-inline: 2rem }
+            .globe-bg { font-size: 16rem }
+            .about-h2 { font-size: 1.875rem }
+        }
+        @media (min-width: 1024px) {
+            .about-grid { grid-template-columns: 1fr 1fr; padding-block: 7rem }
+            .globe-block { min-height: 20rem }
+            .globe-bg { left: -1.5rem; font-size: 20rem }
+            .globe-note { margin-top: 12rem }
+        }
+
+        /* ========================= create band ========================== */
+        .create { background: #fff }
+        .create ul { display: flex; flex-direction: column; gap: 0.75rem; padding: 2.5rem 1.25rem }
+        .create li { flex: 1 }
+        .create .tile { display: grid; place-items: center; height: 6rem; border-radius: var(--radius-pill);
+                        font-size: 1.875rem; font-weight: 500; transition: transform 400ms cubic-bezier(.2, .8, .2, 1) }
+        @media (hover: hover) { .create .tile:hover { transform: scale(1.03) } }
+        .tile.light { background: var(--surface); color: var(--foreground) }
+        .tile.accent { background: linear-gradient(to bottom right, var(--accent-from), var(--accent-to)); color: #fff }
+        .tile.dark { background: var(--ink); color: #fff }
+        .tile.ghost { background: rgba(241, 240, 238, .6); color: rgba(17, 17, 17, .35) }
+        .tile.dark .ico { font-size: 2.25rem }
+        @media (min-width: 640px) {
+            .create ul { flex-direction: row; gap: 1rem; padding-inline: 2rem }
+            .create .tile { height: 10rem; font-size: 2.25rem }
+            .tile.dark .ico { font-size: 3rem }
+        }
+
+        /* ========================== portfolio =========================== */
+        #works { background: #fff }
+        .works-in { padding: 2.5rem 1.25rem 5rem }
+        .works-head { display: flex; flex-direction: column; align-items: center; gap: 1.25rem; text-align: center;
+                      margin-bottom: 3rem }
+        .works-h2 { font-size: 2.25rem; font-weight: 600; letter-spacing: -.02em; width: fit-content }
+        .works-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem }
+        .work-card { position: relative; min-height: 22rem; overflow: hidden; border-radius: var(--radius-card);
+            background: var(--ink); padding: 1.5rem; color: #fff; box-shadow: 0 0 0 1px rgba(255, 255, 255, .05);
+            transition: transform 400ms cubic-bezier(.2, .8, .2, 1); display: block }
+        @media (hover: hover) { .work-link:hover .work-card { transform: translateY(-8px) scale(1.012) } }
+        .work-meta { display: flex; align-items: flex-start; justify-content: space-between; font-size: 0.75rem;
+                     text-transform: uppercase; letter-spacing: .025em; color: rgba(255, 255, 255, .45) }
+        .work-badge { width: 2.75rem; height: 2.75rem; display: grid; place-items: center; border-radius: var(--radius-pill);
+            background: rgba(255, 255, 255, .1); color: #fff; box-shadow: 0 0 0 1px rgba(255, 255, 255, .15);
+            font-size: 1rem; transition: transform 400ms cubic-bezier(.2, .8, .2, 1) }
+        @media (hover: hover) { .work-link:hover .work-badge { transform: rotate(45deg) scale(1.08) } }
+        .work-mark { position: absolute; inset: 0; display: grid; place-items: center; pointer-events: none }
+        .work-mark .ico { font-size: 4.5rem; color: rgba(255, 255, 255, .9) }
+        .work-mark sup { font-size: 0.75rem; color: rgba(255, 255, 255, .6) }
+        .work-bottom { position: absolute; inset-inline: 1.5rem; bottom: 1.5rem }
+        .work-bottom h3 { font-size: 1.5rem; font-weight: 500; letter-spacing: -.01em }
+        .work-bottom p { margin-top: 0.5rem; max-width: 28rem; font-size: 0.875rem; color: rgba(255, 255, 255, .55) }
+        .work-tags { margin-top: 1.25rem; display: flex; flex-wrap: wrap; gap: 0.5rem }
+        @media (min-width: 640px) {
+            .works-in { padding-inline: 2rem }
+            .work-card { min-height: 26rem; padding: 2rem }
+            .works-h2 { font-size: 3rem }
+            .work-bottom { inset-inline: 2rem; bottom: 2rem }
+            .work-bottom h3 { font-size: 1.875rem }
+        }
+        @media (min-width: 768px) { .works-grid { grid-template-columns: repeat(2, 1fr) } }
+        @media (min-width: 1024px) { .works-in { padding-bottom: 7rem } }
+
+        /* =========================== services =========================== */
+        #services { background: #fff }
+        .services-in { padding: 5rem 1.25rem }
+        .services-h2 { margin: 1.25rem 0 3rem; max-width: 16ch; font-size: 2.25rem; font-weight: 600; letter-spacing: -.02em }
+        .srow { border-top: 1px solid var(--line) }
+        .srow:first-child { border-top: 0 }
+        .srow-in { display: flex; align-items: center; gap: 1rem; border-radius: var(--radius-card-sm);
+            padding: 1.5rem; padding-left: 1.5rem; padding-right: 1.5rem; background: rgba(241, 240, 238, 0);
+            transition: background 450ms cubic-bezier(.2, .8, .2, 1), padding 450ms cubic-bezier(.2, .8, .2, 1) }
+        @media (hover: hover) {
+            .srow a:hover .srow-in { background: rgba(241, 240, 238, 1); padding-left: 2rem; padding-right: 1.25rem }
+            .srow a:hover .srow-badge { transform: translateX(5px) }
+        }
+        .srow-num { width: 1.75rem; font-size: 0.875rem; font-weight: 500; color: rgba(17, 17, 17, .4) }
+        .srow h3 { flex: 1; font-size: 1.5rem; font-weight: 500; letter-spacing: -.01em }
+        .srow p { display: none; max-width: 20rem; font-size: 0.875rem; color: rgba(17, 17, 17, .55) }
+        .srow-badge { width: 2.5rem; height: 2.5rem; display: grid; place-items: center; border-radius: var(--radius-pill);
+            background: var(--ink); color: #fff; font-size: 1rem; flex: none;
+            transition: transform 400ms cubic-bezier(.2, .8, .2, 1) }
+        @media (min-width: 640px) {
+            .services-in { padding-inline: 2rem }
+            .services-h2 { margin-bottom: 3.5rem; font-size: 3rem }
+            .srow-in { gap: 1.5rem; padding-block: 2rem }
+            .srow-num { width: 2.5rem }
+            .srow h3 { font-size: 1.875rem }
+            .srow-badge { width: 3rem; height: 3rem }
+        }
+        @media (min-width: 768px) { .srow h3 { font-size: 2.25rem } }
+        @media (min-width: 1024px) { .services-in { padding-block: 7rem } .srow p { display: block } }
+
+        /* ============================ stats ============================= */
+        .stats { background: #fff }
+        .stats-in { padding: 0 1.25rem 5rem }
+        .stats-panel { border-radius: var(--radius-card); background: var(--ink); padding: 3rem 1.5rem; color: #fff }
+        .stats-h2 { margin-top: 1rem; max-width: 20ch; font-size: 1.875rem; font-weight: 500; letter-spacing: -.01em }
+        .stats-grid { margin-top: 3.5rem; display: grid; grid-template-columns: repeat(2, 1fr); column-gap: 2rem; row-gap: 3rem }
+        .stat-num { font-size: 3rem; font-weight: 600; letter-spacing: -.02em }
+        .stat-lab { margin-top: 0.75rem; font-size: 0.875rem; color: rgba(255, 255, 255, .55) }
+        @media (min-width: 640px) {
+            .stats-in { padding-inline: 2rem }
+            .stats-panel { padding: 4rem 2rem }
+            .stat-num { font-size: 3.75rem }
+        }
+        @media (min-width: 768px) {
+            .stats-panel { padding-inline: 4rem }
+            .stats-h2 { font-size: 2.25rem }
+            .stat-num { font-size: 4.5rem }
+        }
+        @media (min-width: 1024px) {
+            .stats-in { padding-bottom: 7rem }
+            .stats-grid { grid-template-columns: repeat(4, 1fr) }
+        }
+
+        /* =========================== footer ============================= */
+        .footer { position: relative; overflow: hidden; border-radius: var(--radius-card) var(--radius-card) 0 0;
+                  background: var(--ink); color: #fff }
+        .footer-in { position: relative; z-index: 10; padding: 5rem 1.25rem 2.5rem }
+        .footer-cta { display: flex; flex-direction: column; gap: 2rem; border-bottom: 1px solid rgba(255, 255, 255, .1);
+                      padding-bottom: 4rem }
+        .footer-cta h2 { max-width: 16ch; font-size: 2.25rem; font-weight: 600; letter-spacing: -.02em }
+        .footer-cols { display: grid; grid-template-columns: 1fr; gap: 3rem; padding-block: 4rem }
+        .fcol h3 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: .025em; color: rgba(255, 255, 255, .4) }
+        .fcol ul { margin-top: 1rem; display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.875rem }
+        .fbrand { display: flex; align-items: center; gap: 0.5rem; font-size: 1.125rem; font-weight: 600 }
+        .fbrand .ico { font-size: 1.25rem }
+        .ftag { margin-top: 1rem; max-width: 20rem; font-size: 0.875rem; color: rgba(255, 255, 255, .55) }
+        .legal { display: flex; flex-direction: column; align-items: center; justify-content: space-between; gap: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, .1); padding-top: 2rem; font-size: 0.75rem;
+            color: rgba(255, 255, 255, .45) }
+        .legal-links { display: flex; gap: 1.5rem }
+        .footer-mark { position: absolute; inset-inline: 0; bottom: -1.5rem; z-index: 0; text-align: center;
+            pointer-events: none; user-select: none; font-weight: 700; line-height: 1; font-size: var(--text-watermark);
+            color: rgba(255, 255, 255, .05) }
+        @media (min-width: 640px) {
+            .footer-in { padding-inline: 2rem }
+            .footer-cta h2 { font-size: 3rem }
+            .legal { flex-direction: row }
+        }
+        @media (min-width: 768px) {
+            .footer-cta h2 { font-size: 3.75rem }
+            .footer-cols { grid-template-columns: repeat(2, 1fr) }
+        }
+        @media (min-width: 1024px) {
+            .footer-in { padding-top: 6rem }
+            .footer-cta { flex-direction: row; align-items: flex-end; justify-content: space-between }
+            .footer-cols { grid-template-columns: repeat(4, 1fr) }
+        }
+
+        /* ========================== nav overlay ========================= */
+        .navmenu { position: fixed; inset: 0; z-index: 115; display: flex; flex-direction: column;
+                   background: var(--ink); color: #fff; opacity: 0; transition: opacity 450ms cubic-bezier(.2, .8, .2, 1) }
+        .navmenu.is-open { opacity: 1 }
+        .navmenu-top { display: flex; align-items: center; justify-content: space-between; padding: 1.25rem }
+        .navmenu-brand { display: flex; align-items: center; gap: 0.5rem; font-size: 1.125rem; font-weight: 600 }
+        .navmenu-brand .ico { font-size: 1.25rem; color: var(--accent-from) }
+        .navmenu-close { display: inline-flex; align-items: center; gap: 0.5rem; border: 1px solid rgba(255, 255, 255, .15);
+            border-radius: var(--radius-control); padding: 0.5rem 1rem; font-size: 0.75rem; font-weight: 500;
+            text-transform: uppercase; letter-spacing: .05em; color: rgba(255, 255, 255, .7); transition: all .3s }
+        .navmenu-close:hover { border-color: rgba(255, 255, 255, .4); color: #fff }
+        .navmenu-close .ico { font-size: 0.875rem }
+        .navmenu-nav { flex: 1; display: flex; flex-direction: column; justify-content: center; padding-inline: 1.25rem }
+        .navmenu-nav ul { display: flex; flex-direction: column; gap: 0.25rem }
+        .navmenu-item { display: flex; align-items: baseline; gap: 1rem; width: 100%; padding-block: 0.5rem;
+            text-align: left; font-size: 2.25rem; font-weight: 600; letter-spacing: -.02em;
+            transform: translateY(1rem); opacity: 0; transition: all .5s ease-out }
+        .navmenu.is-open .navmenu-item { transform: none; opacity: 1 }
+        .navmenu-item .n { font-size: 1rem; font-weight: 400; color: rgba(255, 255, 255, .3); transition: color .3s }
+        .navmenu-item .l { color: rgba(255, 255, 255, .7); transition: color .3s }
+        .navmenu-item:hover .n { color: var(--accent-from) }
+        .navmenu-item:hover .l { color: #fff }
+        .navmenu-bottom { display: flex; flex-direction: column; gap: 0.75rem; border-top: 1px solid rgba(255, 255, 255, .1);
+            padding: 1.5rem 1.25rem; font-size: 0.75rem; text-transform: uppercase; letter-spacing: .025em;
+            color: rgba(255, 255, 255, .45) }
+        .navmenu-bottom button { color: rgba(255, 255, 255, .7) }
+        .navmenu-bottom button:hover { text-decoration: underline; color: #fff }
+        @media (min-width: 640px) {
+            .navmenu-top { padding: 1.5rem 2rem }
+            .navmenu-nav { padding-inline: 2rem }
+            .navmenu-item { font-size: 3.75rem }
+            .navmenu-bottom { flex-direction: row; justify-content: space-between; padding-inline: 2rem }
+        }
+
+        /* =========================== modal ============================== */
+        .modal { position: fixed; inset: 0; z-index: 110; display: flex; align-items: flex-end; justify-content: center;
+            padding: 1rem; background: rgba(17, 17, 17, .3); backdrop-filter: blur(16px);
+            opacity: 0; transition: opacity 400ms cubic-bezier(.2, .8, .2, 1) }
+        .modal.is-open { opacity: 1 }
+        .modal-panel { position: relative; width: 100%; max-width: 32rem; overflow: hidden; border-radius: var(--radius-card);
+            background: #fff; padding: 1.5rem; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, .25), 0 0 0 1px var(--line);
+            transform: translateY(28px); transition: transform 450ms cubic-bezier(.2, .8, .2, 1), opacity 450ms; opacity: 0 }
+        .modal.is-open .modal-panel { transform: none; opacity: 1 }
+        .modal.is-closing .modal-panel { transform: translateY(18px); opacity: 0 }
+        .modal-close { position: absolute; right: 1rem; top: 1rem; width: 2.25rem; height: 2.25rem; display: grid;
+            place-items: center; border-radius: var(--radius-pill); background: var(--surface); color: rgba(17, 17, 17, .6);
+            font-size: .875rem; transition: all .3s }
+        .modal-close:hover { background: var(--surface-2); color: var(--foreground) }
+        .modal-head { margin-bottom: 1.5rem; display: flex; flex-direction: column; gap: 0.375rem }
+        .modal-kicker { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.875rem; font-weight: 500;
+                        color: rgba(17, 17, 17, .6) }
+        .modal-kicker::before { content: ""; width: 0.375rem; height: 0.375rem; border-radius: var(--radius-pill);
+                                background: var(--accent) }
+        .modal-head h2 { font-size: 1.5rem; font-weight: 600; letter-spacing: -.01em }
+        .modal form { display: flex; flex-direction: column; gap: 1rem }
+        .field { display: flex; flex-direction: column; gap: 0.5rem }
+        .field span { font-size: 0.75rem; font-weight: 500; text-transform: uppercase; letter-spacing: .025em;
+                      color: rgba(17, 17, 17, .5) }
+        .field input, .field textarea { width: 100%; border: 1px solid var(--line); background: rgba(241, 240, 238, .5);
+            border-radius: var(--radius-control); padding: 0.75rem 1rem; font-size: 0.875rem; outline: none;
+            font-family: inherit; color: inherit; transition: border-color .25s, background .25s }
+        .field textarea { resize: none }
+        .field input:focus, .field textarea:focus { border-color: rgba(17, 17, 17, .3); background: #fff }
+        .modal-foot { margin-top: 0.5rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem }
+        .modal-note { font-size: 0.75rem; color: rgba(17, 17, 17, .45) }
+        .modal-success { display: flex; flex-direction: column; align-items: center; text-align: center;
+                         padding-block: 2rem; gap: 1rem }
+        .modal-success .badge-lg { width: 3.5rem; height: 3.5rem; display: grid; place-items: center;
+            border-radius: var(--radius-pill); background: var(--ink); color: var(--accent-from); font-size: 1.5rem }
+        .modal-success h2 { font-size: 1.5rem; font-weight: 600 }
+        .modal-success p { max-width: 32ch; font-size: 0.875rem; color: rgba(17, 17, 17, .6) }
+        @media (min-width: 640px) {
+            .modal { align-items: center }
+            .modal-panel { padding: 2rem }
+            .modal-head h2 { font-size: 1.875rem }
+        }
+    </style>
+</head>
+
+<body>
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+        <defs>
+            <symbol id="i-logo" viewBox="0 0 48 48">
+                <path fill="currentColor" d="M24 2c2.2 13.8 7.9 19.6 22 22-14.1 2.4-19.8 8.2-22 22-2.2-13.8-7.9-19.6-22-22 14.1-2.4 19.8-8.2 22-22Z" />
+            </symbol>
+            <symbol id="i-arrow-right" viewBox="0 0 24 24">
+                <path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6" />
+            </symbol>
+            <symbol id="i-arrow-up-right" viewBox="0 0 24 24">
+                <path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M7 17 17 7M8 7h9v9" />
+            </symbol>
+            <symbol id="i-star" viewBox="0 0 24 24">
+                <path fill="currentColor" d="M12 2.5l2.9 5.88 6.49.94-4.7 4.58 1.11 6.46L12 17.9l-5.8 3.05 1.1-6.46-4.69-4.58 6.49-.94L12 2.5z" />
+            </symbol>
+            <symbol id="i-globe" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="9.25" fill="none" stroke="currentColor" stroke-width="1.4" />
+                <path fill="none" stroke="currentColor" stroke-width="1.4" d="M12 2.75c2.6 2.3 4 5.8 4 9.25s-1.4 6.95-4 9.25c-2.6-2.3-4-5.8-4-9.25s1.4-6.95 4-9.25zM2.75 12h18.5" />
+            </symbol>
+            <symbol id="i-x" viewBox="0 0 24 24">
+                <path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M4 4l16 16M20 4 4 20" />
+            </symbol>
+            <symbol id="i-dot" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6" />
+                <circle cx="12" cy="12" r="3.2" fill="currentColor" />
+            </symbol>
+            <symbol id="i-grid" viewBox="0 0 24 24">
+                <path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M4 6h16M4 12h16M4 18h16" />
+            </symbol>
+        </defs>
+    </svg>
+
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <!-- ============================ loader ============================= -->
+    <div id="loader">
+        <div class="loader-center">
+            <div class="loader-brand"><svg class="ico"><use href="#i-logo" /></svg>Lumora</div>
+            <p class="loader-tag">Bold ideas, shipped with quiet precision.</p>
+        </div>
+        <div class="loader-progress">
+            <div class="loader-track"><div class="loader-fill" id="loader-fill"></div></div>
+            <div class="loader-meta"><span>Loading</span><span class="loader-count" id="loader-count">000</span></div>
+        </div>
+    </div>
+
+    <!-- ============================ header ============================= -->
+    <header class="header" id="header">
+        <div class="shell header-in">
+            <button class="brand-btn" data-scroll="home" aria-label="Lumora, back to top">
+                <span class="brand"><svg class="ico"><use href="#i-logo" /></svg>Lumora</span>
+            </button>
+            <nav class="nav-primary" aria-label="Primary">
+                <ul>
+                    <li><button data-scroll="home" aria-current="page"><span class="lbl">Home</span></button></li>
+                    <li><button data-scroll="works"><span class="lbl">Work</span></button></li>
+                    <li><button data-scroll="services"><span class="lbl">Services <i class="caret">▾</i></span></button></li>
+                    <li><button data-scroll="about"><span class="lbl">Studio</span></button></li>
+                    <li><button data-scroll="careers"><span class="lbl">Careers</span></button></li>
+                    <li><button data-modal><span class="lbl">Contact</span></button></li>
+                </ul>
+            </nav>
+            <div class="header-right">
+                <div class="clock">
+                    <span class="lab">Local time</span>
+                    <span class="time" data-clock-time>9:41am</span>
+                    <span class="sep">•</span>
+                    <span class="date" data-clock-date>12 March, 2025</span>
+                </div>
+                <button class="menu-btn" id="menu-open" aria-label="Open menu">
+                    <span><svg class="ico"><use href="#i-grid" /></svg><span class="word">Menu</span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main id="main">
+        <!-- ============================= hero ============================= -->
+        <section id="home">
+            <div class="hero-media" id="hero-media">
+                <img id="hero-base" alt="" onerror="this.style.display='none'"
+                    src="https://api.getlayers.ai/storage/v1/object/public/public/assets/lumora-e8b711fc68/hero/after.jpg" />
+                <canvas id="hero-canvas" aria-hidden="true"></canvas>
+            </div>
+            <div class="hero-vignette"></div>
+            <div class="hero-watermark rv" data-y style="--ry:20px;--ro:.4;--d:300">LUMORA</div>
+
+            <div class="shell hero-grid">
+                <div class="hero-left">
+                    <span class="eyebrow rv gate" data-y style="--ry:10px;--d:200">Independent Studio</span>
+                    <h1 class="hero-h1 lines gate" style="--d:250">
+                        <span class="line"><span>Bold ideas,</span></span>
+                        <span class="line"><span style="transition-delay:120ms">shipped with</span></span>
+                        <span class="line"><span style="transition-delay:240ms">quiet precision</span></span>
+                    </h1>
+                    <div class="rating rv gate" data-y style="--ry:10px;--d:650">
+                        <span class="stars">
+                            <svg class="ico"><use href="#i-star" /></svg><svg class="ico"><use href="#i-star" /></svg><svg class="ico"><use href="#i-star" /></svg><svg class="ico"><use href="#i-star" /></svg><svg class="ico"><use href="#i-star" /></svg>
+                        </span>
+                        <span class="txt">200+ brands shipped</span>
+                    </div>
+                    <div class="hero-ctas rv gate" data-y style="--ry:10px;--d:750">
+                        <button class="pill dark has-arrow arrow-right" data-modal>
+                            <span class="pill-in">Let's Talk<span class="badge"><svg class="ico"><use href="#i-arrow-right" /></svg></span></span>
+                        </button>
+                        <button class="pill outline" data-scroll="works"><span class="pill-in">View Work</span></button>
+                    </div>
+                </div>
+
+                <div class="hero-right">
+                    <div class="hero-card rv gate" data-scale style="--ry:16px;--rs:.96;--d:400">
+                        <div class="hero-card-row" id="hero-card-row">
+                            <div class="hero-card-tile"><svg class="ico"><use href="#i-logo" /></svg></div>
+                            <div class="hero-card-panel">
+                                <div class="hero-card-slot" id="hero-card-slot">
+                                    <div class="hero-card-item">
+                                        <div class="hero-card-cap">Conversion design</div>
+                                        <div class="hero-card-title">Crafted to convert.</div>
+                                    </div>
+                                </div>
+                                <div class="hero-card-bottom">
+                                    <div class="dots" id="hero-dots"><i class="on"></i><i></i><i></i></div>
+                                    <div class="card-navs">
+                                        <button class="card-nav prev" id="card-prev" aria-label="Previous"><svg class="ico"><use href="#i-arrow-right" /></svg></button>
+                                        <button class="card-nav next" id="card-next" aria-label="Next"><svg class="ico"><use href="#i-arrow-right" /></svg></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="partners rv gate" data-y style="--ry:14px;--d:550">
+                        <div class="partners-label">Trusted by</div>
+                        <ul class="partners-grid">
+                            <li><span class="partner"><svg class="ico"><use href="#i-dot" /></svg>Kaido</span></li>
+                            <li><span class="partner"><svg class="ico"><use href="#i-dot" /></svg>Northpeak</span></li>
+                            <li><span class="partner"><svg class="ico"><use href="#i-dot" /></svg>Vellum</span></li>
+                            <li><span class="partner"><svg class="ico"><use href="#i-dot" /></svg>Orbit</span></li>
+                            <li><span class="partner"><svg class="ico"><use href="#i-dot" /></svg>Brightline</span></li>
+                            <li><span class="partner"><svg class="ico"><use href="#i-dot" /></svg>Cobalt</span></li>
+                            <li><span class="partner"><svg class="ico"><use href="#i-dot" /></svg>Mesa</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="shell hero-status rv gate" style="--d:900">
+                <span>Working since 2014</span>
+                <span class="mid">Remote-first, worldwide</span>
+                <span class="end">Scroll to explore <span aria-hidden="true">↓</span></span>
+            </div>
+        </section>
+
+        <!-- ============================ about ============================= -->
+        <section id="about">
+            <div class="shell about-grid">
+                <div class="globe-block">
+                    <svg class="ico globe-bg" aria-hidden="true"><use href="#i-globe" /></svg>
+                    <span class="eyebrow globe-eyebrow rv" data-y style="--ry:10px">The Studio</span>
+                    <div class="globe-note rv" data-y style="--ry:12px">
+                        <svg class="ico"><use href="#i-globe" /></svg>
+                        <span class="t">A distributed team building across every time zone.</span>
+                    </div>
+                </div>
+                <div class="about-right">
+                    <h2 class="about-h2 words">We partner with ambitious teams to ship <span class="dim">digital products, brand systems, and the strategy that holds them together.</span></h2>
+                    <div class="about-foot rv" data-y style="--ry:12px;--d:200">
+                        <div>
+                            <div class="lab">Find us online</div>
+                            <div class="socials">
+                                <a class="social accent" href="#" aria-label="X / Twitter"><svg class="ico"><use href="#i-x" /></svg></a>
+                                <a class="social" href="#" aria-label="Behance"><svg class="ico"><use href="#i-dot" /></svg></a>
+                                <a class="social" href="#" aria-label="Dribbble"><svg class="ico"><use href="#i-dot" /></svg></a>
+                            </div>
+                        </div>
+                        <a class="pill outline has-arrow arrow-right" href="#about">
+                            <span class="pill-in">About Us<span class="badge"><svg class="ico"><use href="#i-arrow-right" /></svg></span></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================== create band ========================= -->
+        <section class="create">
+            <ul class="shell">
+                <li class="rv" data-y style="--ry:28px;--d:0"><div class="tile light">We</div></li>
+                <li class="rv" data-y style="--ry:28px;--d:120"><div class="tile accent">Build</div></li>
+                <li class="rv" data-y style="--ry:28px;--d:240"><div class="tile dark"><svg class="ico"><use href="#i-arrow-right" /></svg></div></li>
+                <li class="rv" data-y style="--ry:28px;--d:360"><div class="tile ghost">Better</div></li>
+            </ul>
+        </section>
+
+        <!-- =========================== portfolio ========================== -->
+        <section id="works">
+            <div class="shell works-in">
+                <div class="works-head">
+                    <span class="eyebrow boxed rv" data-y style="--ry:10px">Portfolio</span>
+                    <h2 class="works-h2 lines" style="--d:120"><span class="line"><span>Selected Work</span></span></h2>
+                </div>
+                <ul class="works-grid">
+                    <li class="rv" data-y style="--ry:48px;--d:0">
+                        <a class="work-link" href="#works">
+                            <article class="work-card">
+                                <div class="work-meta">
+                                    <span>Branding — 2025</span>
+                                    <span class="work-badge"><svg class="ico"><use href="#i-arrow-up-right" /></svg></span>
+                                </div>
+                                <div class="work-mark"><svg class="ico"><use href="#i-logo" /></svg><sup>®</sup></div>
+                                <div class="work-bottom">
+                                    <h3>Aster Labs</h3>
+                                    <p>A complete identity and go-to-market system for a fast-moving research startup.</p>
+                                    <div class="work-tags"><span class="tag">Branding</span><span class="tag">Strategy</span><span class="tag">Design</span></div>
+                                </div>
+                            </article>
+                        </a>
+                    </li>
+                    <li class="rv" data-y style="--ry:48px;--d:90">
+                        <a class="work-link" href="#works">
+                            <article class="work-card">
+                                <div class="work-meta">
+                                    <span>Product — 2024</span>
+                                    <span class="work-badge"><svg class="ico"><use href="#i-arrow-up-right" /></svg></span>
+                                </div>
+                                <div class="work-mark"><svg class="ico"><use href="#i-logo" /></svg><sup>®</sup></div>
+                                <div class="work-bottom">
+                                    <h3>Nova Finance</h3>
+                                    <p>A finance platform reimagined — clear data, calm interfaces, and effortless flows.</p>
+                                    <div class="work-tags"><span class="tag">Product Design</span><span class="tag">Web App</span><span class="tag">QA</span></div>
+                                </div>
+                            </article>
+                        </a>
+                    </li>
+                    <li class="rv" data-y style="--ry:48px;--d:180">
+                        <a class="work-link" href="#works">
+                            <article class="work-card">
+                                <div class="work-meta">
+                                    <span>Identity — 2023</span>
+                                    <span class="work-badge"><svg class="ico"><use href="#i-arrow-up-right" /></svg></span>
+                                </div>
+                                <div class="work-mark"><svg class="ico"><use href="#i-logo" /></svg><sup>®</sup></div>
+                                <div class="work-bottom">
+                                    <h3>Helio Studio</h3>
+                                    <p>A bold visual identity and art direction system built to scale across every surface.</p>
+                                    <div class="work-tags"><span class="tag">Brand Identity</span><span class="tag">Art Direction</span></div>
+                                </div>
+                            </article>
+                        </a>
+                    </li>
+                    <li class="rv" data-y style="--ry:48px;--d:270">
+                        <a class="work-link" href="#works">
+                            <article class="work-card">
+                                <div class="work-meta">
+                                    <span>Mobile — 2023</span>
+                                    <span class="work-badge"><svg class="ico"><use href="#i-arrow-up-right" /></svg></span>
+                                </div>
+                                <div class="work-mark"><svg class="ico"><use href="#i-logo" /></svg><sup>®</sup></div>
+                                <div class="work-bottom">
+                                    <h3>Pulse Health</h3>
+                                    <p>A wellness app grounded in research, shipped end to end from concept to release.</p>
+                                    <div class="work-tags"><span class="tag">Mobile App</span><span class="tag">UX Research</span><span class="tag">Development</span></div>
+                                </div>
+                            </article>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ============================ services ========================== -->
+        <section id="services">
+            <div class="shell services-in">
+                <span class="eyebrow rv" data-y style="--ry:10px">Services</span>
+                <h2 class="services-h2 lines" style="--d:120"><span class="line"><span>What we do best</span></span></h2>
+                <ul>
+                    <li class="srow rv" data-y style="--ry:24px;--d:0">
+                        <a href="#services">
+                            <div class="srow-in">
+                                <span class="srow-num">01</span>
+                                <h3>Software Development</h3>
+                                <p>Scalable web &amp; mobile products built to last.</p>
+                                <span class="srow-badge"><svg class="ico"><use href="#i-arrow-up-right" /></svg></span>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="srow rv" data-y style="--ry:24px;--d:80">
+                        <a href="#services">
+                            <div class="srow-in">
+                                <span class="srow-num">02</span>
+                                <h3>Product Design</h3>
+                                <p>Interfaces that feel effortless and look sharp.</p>
+                                <span class="srow-badge"><svg class="ico"><use href="#i-arrow-up-right" /></svg></span>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="srow rv" data-y style="--ry:24px;--d:160">
+                        <a href="#services">
+                            <div class="srow-in">
+                                <span class="srow-num">03</span>
+                                <h3>Quality Assurance</h3>
+                                <p>Rigorous testing for flawless, confident releases.</p>
+                                <span class="srow-badge"><svg class="ico"><use href="#i-arrow-up-right" /></svg></span>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="srow rv" data-y style="--ry:24px;--d:240">
+                        <a href="#services">
+                            <div class="srow-in">
+                                <span class="srow-num">04</span>
+                                <h3>Consulting</h3>
+                                <p>Strategy and direction for ambitious teams.</p>
+                                <span class="srow-badge"><svg class="ico"><use href="#i-arrow-up-right" /></svg></span>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ============================= stats =========================== -->
+        <section class="stats">
+            <div class="shell stats-in">
+                <div class="stats-panel rv" data-scale style="--ry:40px;--rs:.99">
+                    <span class="eyebrow light">By the numbers</span>
+                    <h2 class="stats-h2 lines" style="--d:120">
+                        <span class="line"><span>Proof in the work,</span></span>
+                        <span class="line"><span style="transition-delay:120ms">not the words.</span></span>
+                    </h2>
+                    <ul class="stats-grid" id="stats-grid">
+                        <li class="rv" data-y style="--ry:20px;--d:0"><div class="stat-num"><span data-count="150">0</span>+</div><div class="stat-lab">Projects delivered</div></li>
+                        <li class="rv" data-y style="--ry:20px;--d:90"><div class="stat-num"><span data-count="98">0</span>%</div><div class="stat-lab">Client retention</div></li>
+                        <li class="rv" data-y style="--ry:20px;--d:180"><div class="stat-num"><span data-count="12">0</span></div><div class="stat-lab">Years of craft</div></li>
+                        <li class="rv" data-y style="--ry:20px;--d:270"><div class="stat-num"><span data-count="40">0</span>+</div><div class="stat-lab">Team members</div></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ============================= footer ============================ -->
+    <footer class="footer">
+        <div class="shell footer-in">
+            <div class="footer-cta">
+                <h2 class="lines">
+                    <span class="line"><span>Have a project in mind?</span></span>
+                    <span class="line"><span style="transition-delay:100ms">Let's get to work.</span></span>
+                </h2>
+                <button class="pill light has-arrow arrow-up" data-modal>
+                    <span class="pill-in">Start a project<span class="badge"><svg class="ico"><use href="#i-arrow-up-right" /></svg></span></span>
+                </button>
+            </div>
+
+            <div class="footer-cols">
+                <div class="fcol">
+                    <div class="fbrand"><svg class="ico"><use href="#i-logo" /></svg>Lumora</div>
+                    <p class="ftag">An independent studio crafting brands, products, and the systems that connect them.</p>
+                </div>
+                <div class="fcol">
+                    <h3>Company</h3>
+                    <ul>
+                        <li><a class="alink" href="#about"><span>About</span></a></li>
+                        <li><a class="alink" href="#careers"><span>Careers</span></a></li>
+                        <li><a class="alink" href="#partners"><span>Partners</span></a></li>
+                        <li><a class="alink" href="#contact"><span>Contact</span></a></li>
+                    </ul>
+                </div>
+                <div class="fcol">
+                    <h3>Services</h3>
+                    <ul>
+                        <li><a class="alink" href="#development"><span>Development</span></a></li>
+                        <li><a class="alink" href="#design"><span>Design</span></a></li>
+                        <li><a class="alink" href="#qa"><span>Quality Assurance</span></a></li>
+                        <li><a class="alink" href="#consulting"><span>Consulting</span></a></li>
+                    </ul>
+                </div>
+                <div class="fcol">
+                    <h3>Social</h3>
+                    <ul>
+                        <li><a class="alink" href="#"><span>X / Twitter</span></a></li>
+                        <li><a class="alink" href="#"><span>Behance</span></a></li>
+                        <li><a class="alink" href="#"><span>Dribbble</span></a></li>
+                        <li><a class="alink" href="#"><span>LinkedIn</span></a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="legal">
+                <span>© 2025 Lumora Studio. All rights reserved.</span>
+                <span class="legal-links">
+                    <a class="alink legal" href="#privacy"><span>Privacy</span></a>
+                    <a class="alink legal" href="#terms"><span>Terms</span></a>
+                </span>
+            </div>
+        </div>
+        <div class="footer-mark">LUMORA</div>
+    </footer>
+
+    <!-- ========================== nav overlay ========================== -->
+    <div class="navmenu" id="navmenu" hidden>
+        <div class="shell navmenu-top">
+            <div class="navmenu-brand"><svg class="ico"><use href="#i-logo" /></svg>Lumora</div>
+            <button class="navmenu-close" id="menu-close"><svg class="ico"><use href="#i-x" /></svg>Close</button>
+        </div>
+        <nav class="shell navmenu-nav" aria-label="Overlay">
+            <ul>
+                <li><button class="navmenu-item" data-scroll="home" style="transition-delay:80ms"><span class="n">01</span><span class="l">Home</span></button></li>
+                <li><button class="navmenu-item" data-scroll="works" style="transition-delay:125ms"><span class="n">02</span><span class="l">Work</span></button></li>
+                <li><button class="navmenu-item" data-scroll="services" style="transition-delay:170ms"><span class="n">03</span><span class="l">Services</span></button></li>
+                <li><button class="navmenu-item" data-scroll="about" style="transition-delay:215ms"><span class="n">04</span><span class="l">Studio</span></button></li>
+                <li><button class="navmenu-item" data-scroll="careers" style="transition-delay:260ms"><span class="n">05</span><span class="l">Careers</span></button></li>
+                <li><button class="navmenu-item" data-modal style="transition-delay:305ms"><span class="n">06</span><span class="l">Contact</span></button></li>
+            </ul>
+        </nav>
+        <div class="shell navmenu-bottom">
+            <span>Local time <span data-clock-inline></span></span>
+            <button data-modal>Start a project →</button>
+        </div>
+    </div>
+
+    <!-- ============================= modal ============================= -->
+    <div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="Start a project" hidden>
+        <div class="modal-panel" id="modal-panel">
+            <button class="modal-close" id="modal-close" aria-label="Close"><svg class="ico"><use href="#i-x" /></svg></button>
+            <div id="modal-form-view">
+                <div class="modal-head">
+                    <span class="modal-kicker">Start a project</span>
+                    <h2>Tell us what you're building.</h2>
+                </div>
+                <form id="request-form">
+                    <label class="field"><span>Name</span><input type="text" name="name" required placeholder="Your name" /></label>
+                    <label class="field"><span>Email</span><input type="email" name="email" required placeholder="you@company.com" /></label>
+                    <label class="field"><span>Project</span><textarea name="project" rows="4" required placeholder="A few words about your project, timeline, and budget."></textarea></label>
+                    <div class="modal-foot">
+                        <span class="modal-note">We reply within one business day.</span>
+                        <button class="pill dark has-arrow arrow-up" type="submit" id="submit-btn">
+                            <span class="pill-in"><span id="submit-label">Send request</span><span class="badge"><svg class="ico"><use href="#i-arrow-up-right" /></svg></span></span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-success" id="modal-success-view" hidden>
+                <span class="badge-lg"><svg class="ico"><use href="#i-logo" /></svg></span>
+                <h2>Request received</h2>
+                <p>Thanks for reaching out — we'll get back to you within one business day.</p>
+                <button class="pill dark" id="success-close"><span class="pill-in">Close</span></button>
+            </div>
+        </div>
+    </div>
+
+    <script type="importmap">
+    { "imports": { "lenis": "https://unpkg.com/lenis@1.3.23/dist/lenis.mjs" } }
+    </script>
+    <script type="module">
+        /* ====================== smooth scroll (Lenis) ===================== */
+        window.scrollTo(0, 0);
+        let lenis = null;
+        try {
+            const { default: Lenis } = await import('lenis');
+            lenis = new Lenis({ smoothWheel: true });
+            const raf = (t) => { lenis.raf(t); requestAnimationFrame(raf); };
+            requestAnimationFrame(raf);
+        } catch (e) {
+            console.warn('Lenis unavailable — native scrolling', e);
+        }
+
+        let scrollEnabled = true;
+        const html = document.documentElement;
+        function stopScroll() {
+            scrollEnabled = false;
+            lenis && lenis.stop();
+            html.style.position = 'relative';
+            html.style.overflow = 'hidden';
+            html.style.height = '100%';
+        }
+        function startScroll() {
+            scrollEnabled = true;
+            lenis && lenis.start();
+            html.style.removeProperty('position');
+            html.style.removeProperty('overflow');
+            html.style.removeProperty('height');
+        }
+        function scrollToId(id) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            scrollEnabled = false;
+            setTimeout(() => {
+                window.scrollTo({ top: el.getBoundingClientRect().top + window.pageYOffset, behavior: 'smooth' });
+            }, 50);
+            setTimeout(() => { scrollEnabled = true; }, 100);
+        }
+
+        /* ===================== adaptive grid (scale-up) =================== */
+        function applyAdaptiveGrid() {
+            const FONT_BASE = 16, baseWidth = 1920, coef = 0.6666;
+            const w = window.innerWidth;
+            const widthReduction = ((baseWidth - w) / baseWidth) * 100;
+            const size = FONT_BASE - (FONT_BASE * (widthReduction * coef)) / 100;
+            if (size > FONT_BASE) html.style.fontSize = size + 'px';
+            else html.style.removeProperty('font-size');
+        }
+        applyAdaptiveGrid();
+        addEventListener('resize', applyAdaptiveGrid);
+
+        /* ========================= reveal engine ========================= */
+        let ready = false;
+        const gated = [];
+
+        function delayOf(el) { return parseFloat(getComputedStyle(el).getPropertyValue('--d')) || 0; }
+
+        const io = new IntersectionObserver((entries, obs) => {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) return;
+                const el = entry.target;
+                const base = delayOf(el);
+                if (el.classList.contains('lines')) {
+                    el.querySelectorAll('.line > span').forEach(s => {
+                        s.style.transitionDelay = (base + (parseFloat(s.dataset.own) || 0)) + 'ms';
+                    });
+                } else {
+                    el.style.transitionDelay = base + 'ms';
+                }
+                el.classList.add('is-in');
+                obs.unobserve(el);
+            });
+        }, { threshold: 0.15, rootMargin: '0px 0px -5% 0px' });
+
+        /* remember the per-line stagger that markup declared, then observe */
+        document.querySelectorAll('.lines .line > span').forEach(s => {
+            const own = s.style.transitionDelay;
+            s.dataset.own = own ? parseFloat(own) * (own.endsWith('ms') ? 1 : 1000) : 0;
+            s.style.transitionDelay = '';
+        });
+
+        /* split the About statement into words (35ms stagger, easeOutQuart) */
+        (function splitWords() {
+            const host = document.querySelector('.words');
+            if (!host) return;
+            let i = 0;
+            const wrap = (node) => {
+                const parts = node.textContent.split(/(\s+)/);
+                const frag = document.createDocumentFragment();
+                parts.forEach(p => {
+                    if (!p.trim()) { frag.appendChild(document.createTextNode(p)); return; }
+                    const s = document.createElement('span');
+                    s.className = 'w';
+                    s.textContent = p;
+                    s.style.transitionDelay = (i++ * 35) + 'ms';
+                    frag.appendChild(s);
+                });
+                node.replaceWith(frag);
+            };
+            const walk = (parent) => {
+                [...parent.childNodes].forEach(n => {
+                    if (n.nodeType === 3) wrap(n);
+                    else if (n.nodeType === 1) walk(n);
+                });
+            };
+            walk(host);
+        })();
+
+        document.querySelectorAll('.rv, .lines, .words').forEach(el => {
+            if (el.classList.contains('gate')) gated.push(el);
+            else io.observe(el);
+        });
+
+        function releaseGated() { gated.forEach(el => io.observe(el)); }
+
+        /* ============================ loader ============================= */
+        (function loader() {
+            const el = document.getElementById('loader');
+            const fill = document.getElementById('loader-fill');
+            const count = document.getElementById('loader-count');
+            const FILL_MS = 1300;
+            const easeInOutCubic = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+            stopScroll();
+            const start = performance.now();
+            function step(now) {
+                const t = Math.min((now - start) / FILL_MS, 1);
+                const p = Math.round(easeInOutCubic(t) * 100);
+                fill.style.width = p + '%';
+                count.textContent = String(p).padStart(3, '0');
+                if (t < 1) { requestAnimationFrame(step); return; }
+                el.classList.add('out');
+                setTimeout(() => {
+                    el.remove();
+                    ready = true;
+                    startScroll();
+                    document.getElementById('header').classList.add('is-in');
+                    releaseGated();
+                }, 700);
+            }
+            requestAnimationFrame(step);
+        })();
+
+        /* ============================= clock ============================= */
+        (function clock() {
+            const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
+                'August', 'September', 'October', 'November', 'December'];
+            const times = document.querySelectorAll('[data-clock-time]');
+            const dates = document.querySelectorAll('[data-clock-date]');
+            const inline = document.querySelectorAll('[data-clock-inline]');
+            function tick() {
+                const d = new Date();
+                const h = d.getHours() % 12 || 12;
+                const m = String(d.getMinutes()).padStart(2, '0');
+                const mer = d.getHours() >= 12 ? 'pm' : 'am';
+                const time = `${h}:${m}${mer}`;
+                const date = `${d.getDate()} ${MONTHS[d.getMonth()]}, ${d.getFullYear()}`;
+                times.forEach(n => n.textContent = time);
+                dates.forEach(n => n.textContent = date);
+                inline.forEach(n => n.textContent = '— ' + time);
+            }
+            tick();
+            setInterval(tick, 1000);
+        })();
+
+        /* ======================= hero card carousel ====================== */
+        (function carousel() {
+            const ITEMS = [
+                { caption: 'Conversion design', title: 'Crafted to convert.' },
+                { caption: 'Engineering', title: 'Built to scale.' },
+                { caption: 'Brand systems', title: 'Designed to last.' }
+            ];
+            const slot = document.getElementById('hero-card-slot');
+            const dots = [...document.getElementById('hero-dots').children];
+            let index = 0, busy = false;
+
+            function render(next, dir) {
+                if (busy) return;
+                busy = true;
+                const outgoing = slot.querySelector('.hero-card-item');
+                const el = document.createElement('div');
+                el.className = 'hero-card-item ' + (dir > 0 ? 'out-down' : 'out-up');
+                el.innerHTML = `<div class="hero-card-cap">${ITEMS[next].caption}</div>` +
+                    `<div class="hero-card-title">${ITEMS[next].title}</div>`;
+                slot.appendChild(el);
+                requestAnimationFrame(() => {
+                    el.classList.remove('out-down', 'out-up');
+                    if (outgoing) outgoing.classList.add(dir > 0 ? 'out-up' : 'out-down');
+                });
+                setTimeout(() => { if (outgoing) outgoing.remove(); busy = false; }, 420);
+                index = next;
+                dots.forEach((d, i) => d.classList.toggle('on', i === index));
+            }
+            function go(step) { render((index + step + ITEMS.length) % ITEMS.length, step); }
+
+            document.getElementById('hero-card-row').addEventListener('click', e => {
+                if (e.target.closest('.card-nav')) return;
+                go(1);
+            });
+            document.getElementById('card-next').addEventListener('click', () => go(1));
+            document.getElementById('card-prev').addEventListener('click', () => go(-1));
+        })();
+
+        /* ========================= liquid reveal ========================= */
+        (function liquidReveal() {
+            const BASE = 'https://api.getlayers.ai/storage/v1/object/public/public/assets/lumora-e8b711fc68';
+            const afterSrc = BASE + '/hero/before.jpg';   /* painted on the cursor trail */
+            const container = document.getElementById('hero-media');
+            const canvas = document.getElementById('hero-canvas');
+            if (matchMedia('(prefers-reduced-motion: reduce)').matches) { canvas.remove(); return; }
+
+            const brushRadius = 143, decay = 0.016, FADE_FRAMES = 120;
+            const dpr = Math.min(window.devicePixelRatio || 1, 2);
+            const ctx = canvas.getContext('2d');
+            const cover = document.createElement('canvas');
+            const coverCtx = cover.getContext('2d');
+            const radius = brushRadius * dpr;
+            const diam = Math.ceil(radius * 2);
+            const brush = document.createElement('canvas');
+            brush.width = brush.height = diam;
+            const brushCtx = brush.getContext('2d');
+
+            const img = new Image();
+            let imgReady = false;
+            img.onload = () => { imgReady = true; paintCover(); };
+            img.src = afterSrc;
+
+            function paintCover() {
+                if (!imgReady || !cover.width) return;
+                coverCtx.clearRect(0, 0, cover.width, cover.height);
+                const s = Math.max(cover.width / img.width, cover.height / img.height);
+                const w = img.width * s, h = img.height * s;
+                coverCtx.drawImage(img, (cover.width - w) / 2, (cover.height - h) / 2, w, h);
+            }
+            function resize() {
+                const r = container.getBoundingClientRect();
+                canvas.width = Math.max(1, Math.round(r.width * dpr));
+                canvas.height = Math.max(1, Math.round(r.height * dpr));
+                cover.width = canvas.width;
+                cover.height = canvas.height;
+                paintCover();
+            }
+            resize();
+            new ResizeObserver(resize).observe(container);
+
+            const points = [];
+            let last = null, idle = 0;
+
+            addEventListener('pointermove', (e) => {
+                const r = container.getBoundingClientRect();
+                const x = (e.clientX - r.left) * dpr;
+                const y = (e.clientY - r.top) * dpr;
+                if (x < -radius || y < -radius || x > canvas.width + radius || y > canvas.height + radius) {
+                    last = null; return;
+                }
+                if (last) {
+                    const dx = x - last.x, dy = y - last.y;
+                    const dist = Math.hypot(dx, dy);
+                    const step = Math.max(radius * 0.3, 1);
+                    const n = Math.min(Math.ceil(dist / step), 60);
+                    for (let i = 1; i <= n; i++) points.push({ x: last.x + dx * (i / n), y: last.y + dy * (i / n) });
+                } else {
+                    points.push({ x, y });
+                }
+                last = { x, y };
+            }, { passive: true });
+
+            function stamp(x, y) {
+                const c = diam / 2;
+                brushCtx.clearRect(0, 0, diam, diam);
+                brushCtx.globalCompositeOperation = 'source-over';
+                const g = brushCtx.createRadialGradient(c, c, 0, c, c, radius);
+                g.addColorStop(0, 'rgba(255,255,255,1)');
+                g.addColorStop(0.55, 'rgba(255,255,255,0.82)');
+                g.addColorStop(1, 'rgba(255,255,255,0)');
+                brushCtx.fillStyle = g;
+                brushCtx.fillRect(0, 0, diam, diam);
+                brushCtx.globalCompositeOperation = 'source-in';
+                brushCtx.drawImage(cover, x - c, y - c, diam, diam, 0, 0, diam, diam);
+                ctx.globalCompositeOperation = 'source-over';
+                ctx.drawImage(brush, x - c, y - c);
+            }
+
+            function tick() {
+                const drawing = points.length > 0;
+                if (drawing) idle = 0; else idle++;
+                if (idle > FADE_FRAMES + 1) { requestAnimationFrame(tick); return; }
+
+                const fade = drawing ? decay : Math.min(decay + idle * 0.004, 0.5);
+                ctx.globalCompositeOperation = 'destination-out';
+                ctx.fillStyle = 'rgba(0,0,0,' + fade + ')';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                if (drawing && imgReady) {
+                    for (const p of points) stamp(p.x, p.y);
+                }
+                points.length = 0;
+                if (idle === FADE_FRAMES) ctx.clearRect(0, 0, canvas.width, canvas.height);
+                requestAnimationFrame(tick);
+            }
+            requestAnimationFrame(tick);
+        })();
+
+        /* ======================== stats count-up ======================== */
+        (function counters() {
+            const grid = document.getElementById('stats-grid');
+            const nums = [...grid.querySelectorAll('[data-count]')];
+            let lastRun = 0;
+            function update() {
+                const now = performance.now();
+                if (now - lastRun < 30) return;
+                lastRun = now;
+                const r = grid.getBoundingClientRect();
+                const vh = window.innerHeight;
+                const p = Math.max(0, Math.min(1, (vh - r.top) / (vh / 2 + r.height / 2)));
+                nums.forEach(n => {
+                    n.textContent = Math.round(p * parseFloat(n.dataset.count));
+                });
+            }
+            addEventListener('scroll', update, { passive: true });
+            addEventListener('resize', update);
+            update();
+        })();
+
+        /* =========================== nav menu =========================== */
+        const navmenu = document.getElementById('navmenu');
+        function openMenu() {
+            navmenu.hidden = false;
+            requestAnimationFrame(() => navmenu.classList.add('is-open'));
+            stopScroll();
+            addEventListener('keydown', escMenu);
+        }
+        function closeMenu() {
+            navmenu.classList.remove('is-open');
+            removeEventListener('keydown', escMenu);
+            setTimeout(() => { navmenu.hidden = true; }, 450);
+            startScroll();
+        }
+        function escMenu(e) { if (e.key === 'Escape') closeMenu(); }
+        document.getElementById('menu-open').addEventListener('click', openMenu);
+        document.getElementById('menu-close').addEventListener('click', closeMenu);
+
+        /* ============================ modal ============================= */
+        const modal = document.getElementById('modal');
+        const formView = document.getElementById('modal-form-view');
+        const successView = document.getElementById('modal-success-view');
+        const form = document.getElementById('request-form');
+        const submitLabel = document.getElementById('submit-label');
+
+        function openModal() {
+            modal.hidden = false;
+            requestAnimationFrame(() => modal.classList.add('is-open'));
+            stopScroll();
+            addEventListener('keydown', escModal);
+        }
+        function closeModal() {
+            modal.classList.add('is-closing');
+            modal.classList.remove('is-open');
+            removeEventListener('keydown', escModal);
+            startScroll();
+            setTimeout(() => {
+                modal.hidden = true;
+                modal.classList.remove('is-closing');
+                form.reset();
+                formView.hidden = false;
+                successView.hidden = true;
+                submitLabel.textContent = 'Send request';
+            }, 450);
+        }
+        function escModal(e) { if (e.key === 'Escape') closeModal(); }
+
+        modal.addEventListener('click', closeModal);
+        document.getElementById('modal-panel').addEventListener('click', e => e.stopPropagation());
+        document.getElementById('modal-close').addEventListener('click', closeModal);
+        document.getElementById('success-close').addEventListener('click', closeModal);
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            submitLabel.textContent = 'Sending…';
+            setTimeout(() => {
+                formView.hidden = true;
+                successView.hidden = false;
+            }, 600);
+        });
+
+        /* ===================== global click routing ====================== */
+        document.addEventListener('click', (e) => {
+            const modalBtn = e.target.closest('[data-modal]');
+            if (modalBtn) {
+                e.preventDefault();
+                if (!navmenu.hidden) closeMenu();
+                setTimeout(openModal, navmenu.hidden ? 0 : 200);
+                return;
+            }
+            const scroller = e.target.closest('[data-scroll]');
+            if (scroller) {
+                e.preventDefault();
+                const id = scroller.dataset.scroll;
+                if (!navmenu.hidden) closeMenu();
+                setTimeout(() => scrollToId(id), navmenu.hidden ? 0 : 200);
+            }
+        });
+    </script>
+</body>
+
+</html>
