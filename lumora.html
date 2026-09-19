@@ -1011,7 +1011,7 @@
     </div>
 
     <script type="importmap">
-    { "imports": { "lenis": "https://unpkg.com/lenis@1.3.23/dist/lenis.mjs" } }
+    { "imports": { "lenis": "https://cdn.jsdelivr.net/npm/lenis@1.3.23/dist/lenis.mjs" } }
     </script>
     <script type="module">
         /* ====================== smooth scroll (Lenis) ===================== */
@@ -1235,13 +1235,23 @@
             const brushCtx = brush.getContext('2d');
 
             const img = new Image();
-            let imgReady = false;
+            let imgReady = false, fallback = false;
             img.onload = () => { imgReady = true; paintCover(); };
+            img.onerror = () => { fallback = true; imgReady = true; paintCover(); };
             img.src = afterSrc;
 
             function paintCover() {
                 if (!imgReady || !cover.width) return;
                 coverCtx.clearRect(0, 0, cover.width, cover.height);
+                if (fallback) {
+                    const g = coverCtx.createLinearGradient(0, 0, cover.width, cover.height);
+                    g.addColorStop(0, '#0a0a0a');
+                    g.addColorStop(0.55, '#b15f2c');
+                    g.addColorStop(1, '#ecebe9');
+                    coverCtx.fillStyle = g;
+                    coverCtx.fillRect(0, 0, cover.width, cover.height);
+                    return;
+                }
                 const s = Math.max(cover.width / img.width, cover.height / img.height);
                 const w = img.width * s, h = img.height * s;
                 coverCtx.drawImage(img, (cover.width - w) / 2, (cover.height - h) / 2, w, h);
